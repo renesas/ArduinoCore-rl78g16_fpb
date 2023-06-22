@@ -1,0 +1,32 @@
+# See: http://code.google.com/p/arduino/wiki/Platforms
+
+menu.cpu=Processor
+
+## RL78/G16 Fast Prototyping Board Description
+g16-fpb-32p.name=RL78/G16 Fast Prototyping Board
+g16-fpb-32p.upload.tool=rl78flash
+g16-fpb-32p.upload.protocol=rl78
+g16-fpb-32p.upload.maximum_size=32768
+g16-fpb-32p.upload.maximum_data_size=2048
+g16-fpb-32p.upload.speed=115200
+
+g16-fpb-32p.bootloader.tool=
+g16-fpb-32p.bootloader.low_fuses=
+g16-fpb-32p.bootloader.high_fuses=
+g16-fpb-32p.bootloader.extended_fuses=
+g16-fpb-32p.bootloader.unlock_bits=
+g16-fpb-32p.bootloader.lock_bits=
+g16-fpb-32p.bootloader.file=
+
+g16-fpb-32p.build.mcu=rl78
+g16-fpb-32p.build.f_cpu=16000000L
+g16-fpb-32p.build.board=RL78/G16 Fast Prototyping Board
+g16-fpb-32p.build.core=rl78g16
+########## TSSR changed ##########
+g16-fpb-32p.build.ldscript=variants/g16-fpb-32p/linker_scripts/gcc/linker_script.ld
+########## TSSR changed ##########
+g16-fpb-32p.build.variant=g16-fpb-32p
+g16-fpb-32p.build.extra_flags=-DGRPROT
+
+##############################################################
+#<EOF>
