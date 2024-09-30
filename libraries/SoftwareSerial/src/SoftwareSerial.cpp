@@ -1,87 +1,19 @@
-/*
-SoftwareSerial.cpp (formerly NewSoftSerial.cpp) - 
-Multi-instance software serial library for Arduino/Wiring
--- Interrupt-driven receive and other improvements by ladyada
-   (http://ladyada.net)
--- Tuning, circular buffer, derivation from class Print/Stream,
-   multi-instance support, porting to 8MHz processors,
-   various optimizations, PROGMEM delay tables, inverse logic and 
-   direct port writing by Mikal Hart (http://www.arduiniana.org)
--- Pin change interrupt macros by Paul Stoffregen (http://www.pjrc.com)
--- 20MHz processor support by Garrett Mace (http://www.macetech.com)
--- ATmega1280/2560 support by Brett Hagman (http://www.roguerobotics.com/)
-
-This library is free software; you can redistribute it and/or
-modify it under the terms of the GNU Lesser General Public
-License as published by the Free Software Foundation; either
-version 2.1 of the License, or (at your option) any later version.
-
-This library is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-The latest version of this library can always be found at
-http://arduiniana.org.
-*/
-/* Aug 25th 2017: Modified by Yuuki Okamiya for RL78 */
-
-// When set, _DEBUG co-opts pins 11 and 13 for debugging with an
-// oscilloscope or logic analyzer.  Beware: it also slightly modifies
-// the bit times, so don't rely on it too much at high baud rates
-#define _DEBUG 0
-#define _DEBUG_PIN1 11
-#define _DEBUG_PIN2 13
 // 
 // Includes
 // 
 
 #include <Arduino.h>
 #include "SoftwareSerial.h"
-
+#include "wiring_variant.h"
 extern "C" {
     #include "pintable.h"
     extern const PinTableType * pinTablelist[NUM_DIGITAL_PINS];
 }
 
-volatile int tempAXvalue=0;
-#define digitalPinToBitMask(P) ( pgm_read_byte( digital_pin_to_bit_mask_PGM + (P) ) )
-const uint8_t PROGMEM digital_pin_to_bit_mask_PGM[] = {
-        DIGITAL_PIN_MASK_0,
-        DIGITAL_PIN_MASK_1,
-        DIGITAL_PIN_MASK_2,
-        DIGITAL_PIN_MASK_3,
-        DIGITAL_PIN_MASK_4,
-        DIGITAL_PIN_MASK_5,
-        DIGITAL_PIN_MASK_6,
-        DIGITAL_PIN_MASK_7,
-        DIGITAL_PIN_MASK_8,
-        DIGITAL_PIN_MASK_9,
-        DIGITAL_PIN_MASK_10,
-        DIGITAL_PIN_MASK_11,
-        DIGITAL_PIN_MASK_12,
-        DIGITAL_PIN_MASK_13,
-        DIGITAL_PIN_MASK_14,
-        DIGITAL_PIN_MASK_15,
-        DIGITAL_PIN_MASK_16,
-        DIGITAL_PIN_MASK_17,
-        DIGITAL_PIN_MASK_18,
-        DIGITAL_PIN_MASK_19,
-        DIGITAL_PIN_MASK_20,
-        DIGITAL_PIN_MASK_21,
-        DIGITAL_PIN_MASK_22,
-        DIGITAL_PIN_MASK_23,
-        DIGITAL_PIN_MASK_24,
-        DIGITAL_PIN_MASK_25,
-        DIGITAL_PIN_MASK_26,
-        DIGITAL_PIN_MASK_27,
-        DIGITAL_PIN_MASK_28,
+extern bool g_u8AnalogReadAvailableTable[NUM_ANALOG_INPUTS];
 
-};
+volatile int tempAXvalue=0;
+
 //
 // Statics
 //
@@ -148,7 +80,6 @@ bool SoftwareSerial::stopListening()
     if (active_object == this)
     {
         setRxIntMsk(false);
-        detachInterrupt(_interrupt_num);
         active_object = NULL;
         return true;
       }
@@ -260,14 +191,13 @@ SoftwareSerial::SoftwareSerial(uint8_t receivePin, uint8_t transmitPin, bool inv
 {
     _transmitPin = transmitPin;
     _receivePin = receivePin;
-    _transmitBitMask = digitalPinToBitMask(transmitPin);
-    _receiveBitMask = digitalPinToBitMask(receivePin);
-    PinTableType* p;
-    PinTableType pin_tbl;
-    p =(PinTableType*)&pin_tbl;
+
+
     const PinTableType ** pp;
+    PinTableType* p;
     pp = &pinTablelist[transmitPin];
     p = (PinTableType *)*pp;
+    _transmitBitMask = p->mask;
     _transmitPortRegister = p->portRegisterAddr;
     pp = &pinTablelist[receivePin];
     p = (PinTableType *)*pp;
@@ -313,7 +243,7 @@ void SoftwareSerial::begin(long speed)
   _tx_delay = subtract_cap(bit_delay, 15 / 4);
 
     attachInterrupt(_interrupt_num, softwareserial_interrupt, CHANGE);
-// 1152bps cannot be tuned
+// 115200bps cannot be tuned
 
     if (115200L == speed)
     {
@@ -321,7 +251,7 @@ void SoftwareSerial::begin(long speed)
         _rx_delay_firstbit =  9;
         _rx_delay_intrabit = 10;
         _rx_delay_stopbit = 10;
-        _tx_delay = 8;
+        _tx_delay = 10;
     }
     else if (57600L == speed)
     {
@@ -349,11 +279,11 @@ void SoftwareSerial::begin(long speed)
     }
     else if (9600L == speed)
     {
-        _rx_delay_centering = 112;
-        _rx_delay_firstbit = 225;
-        _rx_delay_intrabit = 225;
-        _rx_delay_stopbit = 225;
-        _tx_delay = 225;
+        _rx_delay_centering = 113;
+        _rx_delay_firstbit = 226;
+        _rx_delay_intrabit = 226;
+        _rx_delay_stopbit = 226;
+        _tx_delay = 226;
     }
     else if (4800L == speed)
     {
@@ -365,11 +295,11 @@ void SoftwareSerial::begin(long speed)
     }
     else if (2400L == speed)
     {
-        _rx_delay_centering = 460;
-        _rx_delay_firstbit = 920;
-        _rx_delay_intrabit = 920;
-        _rx_delay_stopbit = 920;
-        _tx_delay = 920;
+        _rx_delay_centering = 468;
+        _rx_delay_firstbit = 938;
+        _rx_delay_intrabit = 938;
+        _rx_delay_stopbit = 938;
+        _tx_delay = 938;
     }
 
     Set_SerialPort(_transmitPin,_receivePin);
@@ -433,7 +363,6 @@ const int XMIT_START_ADJUSTMENT = 4;
 
 size_t SoftwareSerial::write(uint8_t b)
 {
-    uint8_t bak_ITLCTL0;
     if (_tx_delay == 0)
         return 0;
 
@@ -501,6 +430,7 @@ void SoftwareSerial::Set_SerialPort(uint8_t txd_pin,uint8_t rxd_pin)
 {
     const PinTableType ** pp;
     PinTableType * p;
+    int8_t pin_index;
 
     /* Set RxD pin */
     //getPinTable(rxd_pin,p);
@@ -509,17 +439,30 @@ void SoftwareSerial::Set_SerialPort(uint8_t txd_pin,uint8_t rxd_pin)
     /* Set PM Register for Input */
     *p->portModeRegisterAddr |=  (uint8_t)(0x1 << p->bit);
 
-    /* Set PMCA Register */
-    if (0!=p->pmc){
+    /* Set PMC Register */
+    if (0!=p->pmc)
+    {
         *p->portModeControlRegisterAddr &= (uint8_t)~(p->pmc);
+
+        pin_index = (int8_t)txd_pin - ANALOG_PIN_START_NUMBER;
+        if ((pin_index >= 0) && (pin_index < NUM_ANALOG_INPUTS))
+        {
+            g_u8AnalogReadAvailableTable[pin_index] = false;
+        }
     }
 
     /* Set TxD pin */
     pp = &pinTablelist[txd_pin];
     p = (PinTableType *)*pp;
     /* Set PMCE Register t */
-    if (0!=p->pmc){
+    if (0!=p->pmc)
+    {
         *p->portModeControlRegisterAddr &= (uint8_t)~(p->pmc);
+        pin_index = (int8_t)txd_pin - ANALOG_PIN_START_NUMBER;
+        if ((pin_index >= 0) && (pin_index < NUM_ANALOG_INPUTS))
+        {
+            g_u8AnalogReadAvailableTable[pin_index] = false;
+        }
     }
 
     if(true == _inverse_logic)

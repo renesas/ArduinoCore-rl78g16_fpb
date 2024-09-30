@@ -1,31 +1,3 @@
-/*
- wiring_analog.c - analog input and output
- Part of Arduino - http://www.arduino.cc/
-
- Copyright (c) 2005-2006 David A. Mellis
-
- This library is free software; you can redistribute it and/or
- modify it under the terms of the GNU Lesser General Public
- License as published by the Free Software Foundation; either
- version 2.1 of the License, or (at your option) any later version. 
-
- This library is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- Lesser General Public License for more details.
-
- You should have received a copy of the GNU Lesser General
- Public License along with this library; if not, write to the
- Free Software Foundation, Inc., 59 Temple Place, Suite 330,
- Boston, MA  02111-1307  USA
-
- Modified 28 September 2010 by Mark Sproul
-
- $Id: wiring.c 248 2007-02-03 15:36:30Z mellis $
- */
-/*
- * Modified  4 Mar  2017 by Yuuki Okamiya for RL78/G13
- */
 #include "wiring_private.h"
 #include "wiring_variant.h"
 #include "pins_variant.h"
@@ -36,7 +8,7 @@
 #endif // G23_FPB
 
 extern const PinTableType * pinTablelist[NUM_DIGITAL_PINS];
-extern uint8_t g_adc_int_flg;
+extern volatile uint8_t g_adc_int_flg;
 static uint8_t g_u8AnalogReference = DEFAULT;
 boolean g_bAdcInterruptFlag = false;
 uint16_t g_u16ADUL;
@@ -60,7 +32,6 @@ static int _analogRead(uint8_t u8ADS);
 static uint16_t _analogDuty(int val, uint16_t frequency);
 static uint16_t _analogFrequency (uint8_t pin, uint32_t u32Hz);
 
-volatile SwPwm g_SwPwm[NUM_SWPWM_PINS] = { { 0, 0, 0, 0, 0, 0 }, };
 bool g_u8AnalogReadAvailableTable[NUM_ANALOG_INPUTS] = { 0 };
 bool g_u8AnalogWriteAvailableTable[NUM_DIGITAL_PINS] = {};
 
@@ -93,7 +64,7 @@ void analogReference(uint8_t mode)
     // there's something connected to AREF.
     R_Config_ADC_Create();
     R_Config_ADC_Set_Reference(mode);
-    g_u8AnalogReference = mode;
+//    g_u8AnalogReference = mode;
 }
 
 int8_t get_analog_channel(uint8_t analog_num)
@@ -166,7 +137,6 @@ void analogWrite(uint8_t pin, int value) {
         {
             value = max(value, PWM_MIN);
             value = min(value, PWM_MAX);
-            /* 1008 Mitsugi add */
             uint8_t cnt;
             uint8_t analog_write_flg = 0;
             int8_t pwm_channel = get_pwm_channel(pin);
@@ -362,22 +332,12 @@ static uint16_t _analogDuty(int val, uint16_t frequency)
 /* 1011 Nhu add */
 static void _analogPinRead (uint8_t pin)
 {
-    uint8_t pin_index;
-    if (pin==29)
+    int8_t pin_index;
+    pin_index = (int8_t)pin - ANALOG_PIN_START_NUMBER;
+//  if pin_index is not within the accessable range do nothing
+    if ((pin_index < 0) || (pin_index >= NUM_ANALOG_INPUTS))
     {
-        pin_index = 8;
-    }
-    else if (pin==40)
-    {
-        pin_index = 9;
-    }
-    else if (pin<ANALOG_PIN_START_NUMBER && pin < 2)
-    {
-        pin_index = pin + 6;
-    }
-    else
-    {
-        pin_index = pin - ANALOG_PIN_START_NUMBER;
+        return;
     }
     if (g_u8AnalogReadAvailableTable[pin_index] == false) {
         const PinTableType ** pp;
@@ -390,15 +350,13 @@ static void _analogPinRead (uint8_t pin)
             pinMode(pin, INPUT);
             /* アナログピンの場合PMCAをセットする */
             *p->portModeControlARegisterAddr |= (unsigned long)(p->pmca);
-
-
             g_u8AnalogReadAvailableTable[pin_index] = true;
         }
 #elif defined(G16_FPB)
         if (0!=p->pmc)
         {
             pinMode(pin, INPUT);
-          /* アナログピンの場合PMCAセットする */
+          /* アナログピンの場合PMCセットする */
             *p->portModeControlRegisterAddr |= (unsigned long)(p->pmc);
             *p->portModeControlRegisterAddr &= (unsigned long)~(p->pmc);
             g_u8AnalogReadAvailableTable[pin_index] = true;

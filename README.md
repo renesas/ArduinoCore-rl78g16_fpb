@@ -1,13 +1,9 @@
-# ArduinoCore-rl78g16_fpb
-* ArduinoCore-rl78g16_fpb for https://github.com/renesas/Arduino/tree/master/hardware
+# ArduinoCore-rl78g16
 
-# Support
-If you find a bug you can submit an issue here on Renesas site:  
-http://www.renesas.com/contact 
+This repository contains the source code and configuration files of the Arduino Core for Renesas RL78/G16 Fast Prototyping Board platform.
 
-# Notes
-* This repository contains the source code and configuration files of the Arduino RL78/G16 Fast Prototyping Board platform.
+# Quick Start Guide and more information
 
-# More information
-* The wiki below includes some information about how to use Arduino Library on Renesas Boards.
+The wiki below includes ‘Quick Start Guide’ about how to install and use Arduino Library on the Renesas Board and more information.  Please try to take a look at the site.
+
   * https://github.com/renesas/Arduino/wiki

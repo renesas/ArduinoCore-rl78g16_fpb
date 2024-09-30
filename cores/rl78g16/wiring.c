@@ -1,31 +1,3 @@
-/*
-  wiring.c - Partial implementation of the Wiring API for the ATmega8.
-  Part of Arduino - http://www.arduino.cc/
-
-  Copyright (c) 2005-2006 David A. Mellis
-
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
-
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
-
-  You should have received a copy of the GNU Lesser General
-  Public License along with this library; if not, write to the
-  Free Software Foundation, Inc., 59 Temple Place, Suite 330,
-  Boston, MA  02111-1307  USA
-
-  $Id$
-*/
-/*
- * Modified 15 July 2014 by Nozomu Fujita for GR-SAKURA
- * Modified  4 Mar  2017 by Yuuki Okamiya for RL78/G13
-*/
-
 #include "wiring_private.h"
 #include "utilities.h"
 #include "r_smc_entry.h"
@@ -90,7 +62,6 @@ unsigned long micros() {
         t = MICROSEC_TIMER_CNT;
         // TCR05.tcr05 を参照した直後の g_timer05_overflow_count の値
         m = g_micros_timer_ovfl_count;
-
         if (a != m)
         {
             // TCR05.tcr05 を参照する直前と直後の g_timer05_overflow_count の値が
@@ -137,6 +108,8 @@ void delay(unsigned long ms)
     g_delay_cnt_flg = 0U;
 }
 
+volatile unsigned long s, w, d;
+
 /* Delay for the given number of microseconds.  Assumes a 8 or 16 MHz clock. */
 // void delayMicroseconds(unsigned long us)
 void delayMicroseconds(unsigned int us)
@@ -151,8 +124,10 @@ void delayMicroseconds(unsigned int us)
         return;
     }
     g_delay_cnt_micros_flg  = 1U;
-    if (g_u8PowerManagementMode == PM_NORMAL_MODE) {
-        unsigned long s, w, d;
+    if (g_u8PowerManagementMode == PM_NORMAL_MODE
+            ||g_u8PowerManagementMode == PM_SNOOZE_MODE )
+    {
+//        unsigned long s, w, d;
         s = micros();
         w = us - DELAYMICROSECONDS_ADJUST2 ;
         d = 0;
@@ -163,7 +138,7 @@ void delayMicroseconds(unsigned int us)
     }
     else
     {
-        unsigned long s, w, d;
+//        unsigned long s, w, d;
         s = micros();
         w = us - DELAYMICROSECONDS_ADJUST2 ;
         d = 0;

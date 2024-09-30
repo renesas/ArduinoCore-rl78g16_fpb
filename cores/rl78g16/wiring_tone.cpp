@@ -1,18 +1,10 @@
-/*
- * writing_tone.c
- *
- *  Created on: 2021/11/02
- *      Author: hmU11983
- */
-
-//#include "pins_arduino_classics.h"
 #include "pins_variant.h"
 #include "iodefine.h"
 #include "iodefine_ext.h"
 #include "api/Common.h"
 #include "wiring_private.h"
 #include "wiring_private_tone.h"
-
+#include "r_smc_entry.h"
 
 extern "C"
 {

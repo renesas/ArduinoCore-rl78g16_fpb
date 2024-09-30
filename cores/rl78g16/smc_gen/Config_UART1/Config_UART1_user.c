@@ -51,8 +51,10 @@ extern volatile uint16_t g_uart1_rx_length;                /* uart1 receive data
 /* Start user code for global. Do not edit comment generated here */
 void Set_Char_Serial_to_buf(uint8_t chn);
 void Set_Char_Serial_from_buf(uint8_t chn);
-extern fInterruptFunc_t uart_receive_callback_table[3] __attribute__((weak));
-extern fInterruptFunc_t uart_transmit_callback_table[3] __attribute__((weak));
+#if ( UART1_CHANNEL == 1 )
+extern fInterruptFunc_t uart_receive_callback_table[UART_TOTAL_NUM] __attribute__((weak));
+extern fInterruptFunc_t uart_transmit_callback_table[UART_TOTAL_NUM] __attribute__((weak));
+#endif /* ( UART1_CHANNEL == 1 ) */
 /* End user code. Do not edit comment generated here */
 
 /***********************************************************************************************************************
@@ -76,11 +78,13 @@ void R_Config_UART1_Create_UserInit(void)
 static void r_Config_UART1_callback_sendend(void)
 {
     /* Start user code for r_Config_UART1_callback_sendend. Do not edit comment generated here */
-    Set_Char_Serial_from_buf(1);
+#if ( UART1_CHANNEL == 1 )
+	Set_Char_Serial_from_buf(1);
     if(0 != uart_transmit_callback_table[1])
     {
         (*uart_transmit_callback_table[1])();
     }
+#endif /* ( UART1_CHANNEL == 1 ) */
     /* End user code. Do not edit comment generated here */
 }
 
@@ -93,11 +97,13 @@ static void r_Config_UART1_callback_sendend(void)
 static void r_Config_UART1_callback_receiveend(void)
 {
     /* Start user code for r_Config_UART1_callback_receiveend. Do not edit comment generated here */
-    Set_Char_Serial_to_buf(1);
+#if ( UART1_CHANNEL == 1 )
+	Set_Char_Serial_to_buf(1);
     if(0 != uart_receive_callback_table[1])
     {
         (*uart_receive_callback_table[1])();
     }
+#endif /* ( UART1_CHANNEL == 1 ) */
     /* End user code. Do not edit comment generated here */
 }
 

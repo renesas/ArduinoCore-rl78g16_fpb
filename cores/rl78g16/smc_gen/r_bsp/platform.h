@@ -27,7 +27,8 @@
 *         : 28.02.2022 1.20     Added RL78F23,RL78F24
 *         : 31.05.2022 1.30     Added RL78G15
 *         : 11.11.2022 1.40     Added RL78G22
-*         : 28.12.2022 1.50     Added RL78G16
+*         : 31.01.2023 1.50     Added RL78G16
+*         : 28.02.2023 1.60     Added RL78G24
 ***********************************************************************************************************************/
 
 /* Multiple inclusion prevention macro */
@@ -54,6 +55,9 @@ DEFINE YOUR SYSTEM - UNCOMMENT THE INCLUDE PATH FOR THE PLATFORM YOU ARE USING.
 
 // GENERIC_RL78_G16
 #include "./board/generic_rl78_g16/r_bsp.h"
+
+// GENERIC_RL78_G24
+//#include "./board/generic_rl78_g24/r_bsp.h"
 
 /***********************************************************************************************************************
 MAKE SURE AT LEAST ONE PLATFORM WAS DEFINED - DO NOT EDIT BELOW THIS POINT

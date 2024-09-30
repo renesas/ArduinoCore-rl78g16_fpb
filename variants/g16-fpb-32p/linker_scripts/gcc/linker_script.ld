@@ -52,13 +52,13 @@ SECTIONS
 	{
 		*(.text)
 		*(.text.*)
-		*/
+*/
 		/*INPUT_SECTION_FLAGS(SHF_EXECINSTR) *(*_n)*/
-		/*
+/*
 		. = ALIGN(2);
 	} >ROM AT>ROM
 	.init :
-	*/
+*/
 	.init (. + __romdatacopysize): 
 	{
 		KEEP(*(.init))

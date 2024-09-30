@@ -15,7 +15,7 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2023 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
 * File Name    : r_bsp_config_reference.h
@@ -24,7 +24,12 @@
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
 * History : DD.MM.YYYY Version  Description
-*         : 28.12.2022 1.50     First Release
+*         : 31.01.2023 1.50     First Release
+*         : 28.02.2023 1.60     Added the version number of Smart Configurator.
+*                               Modified the comment related to the version number of Smart Configurator.
+*         : 31.08.2023 1.61     Changed the initial values comments in the following macro definitions.
+*                                - BSP_CFG_SUBWAITTIME
+*                                - BSP_CFG_FIHWAITTIME
 ***********************************************************************************************************************/
 
 #ifndef R_BSP_CONFIG_REF_HEADER_FILE
@@ -75,9 +80,9 @@
 #if defined(__ICCRL78__)
 /* Option byte setting(When using IAR) */
 #define BSP_CFG_OPTBYTE0_VALUE (0xEFU) /* Generated value. Do not edit this manually */
-#define BSP_CFG_OPTBYTE1_VALUE (0xE7U) /* Generated value. Do not edit this manually */
+#define BSP_CFG_OPTBYTE1_VALUE (0xF7U) /* Generated value. Do not edit this manually */
 #define BSP_CFG_OPTBYTE2_VALUE (0xF9U) /* Generated value. Do not edit this manually */
-#define BSP_CFG_OPTBYTE3_VALUE (0x05U) /* Generated value. Do not edit this manually */
+#define BSP_CFG_OPTBYTE3_VALUE (0x85U) /* Generated value. Do not edit this manually */
 /* Security ID Codes for On-Chip Debugging setting(When using IAR) */
 #define BSP_CFG_SECUID0_VALUE (0x00U) /* Generated value. Do not edit this manually */
 #define BSP_CFG_SECUID1_VALUE (0x00U) /* Generated value. Do not edit this manually */
@@ -845,13 +850,15 @@
    2021-07 : 1010
    2021-10 : 1010
    2022-01 : 1030
+   2023-04 : 1060
    If you are using the standalone version of Smart Configurator,
    set the following values.
    v1.0.1  : 1001
    v1.1.0  : 1010
    v1.3.0  : 1030
+   v1.6.0  : 1060
 */
-#define BSP_CFG_CONFIGURATOR_VERSION    (1050) /* Generated value. Do not edit this manually */
+#define BSP_CFG_CONFIGURATOR_VERSION    (1100) /* Generated value. Do not edit this manually */
 
 /* API function disable(R_BSP_StartClock, R_BSP_StopClock)
  0 : Enable API functions
@@ -968,7 +975,7 @@
 
 /* Input clock frequency in Hz(High-speed system clock(X1))
 */
-#define BSP_CFG_FMX_HZ (12000000)
+#define BSP_CFG_FMX_HZ (5000000) /* Generated value. Do not edit this manually */
 
 /* Control of X1 clock oscillation frequency
    Clock operation mode control register(CMC)
@@ -990,7 +997,7 @@
  6 : 2^17/fX(fX = 10MHz : 13.1ms, fX = 20MHz : 6.55ms)
  7 : 2^18/fX(fX = 10MHz : 26.2ms, fX = 20MHz : 13.1ms)
 */
-#define BSP_CFG_X1_WAIT_TIME_SEL (0)
+#define BSP_CFG_X1_WAIT_TIME_SEL (7) /* Generated value. Do not edit this manually */
 
 /* Setting in STOP mode or in HALT mode while the CPU is opeating with subsystem clock.
    Operation speed mode control register(OSMC)
@@ -1039,11 +1046,13 @@
 
 /* Loop count using the main system clock. */
 /* The loop count refers to a loop consisting of a "for" statement that executes a single NOP instruction. */
-/* Subsystem clock oscillation stabilization wait time(T.B.D) */
-#define BSP_CFG_SUBWAITTIME              (800000U)
+/* Subsystem clock oscillation stabilization time.
+   If the main system clock is 16 MHz, 350000 means 306 ms. */
+#define BSP_CFG_SUBWAITTIME              (350000U)
 
-/* High-speed on-chip oscillator  clock oscillation stabilization wait time(T.B.D) */
-#define BSP_CFG_FIHWAITTIME              (30U)
+/* High-speed on-chip oscillator clock stabilization time.
+   If the main system clock is 16 MHz, 7 means 7 us. */
+#define BSP_CFG_FIHWAITTIME              (7U)
 
 /* If the user would like to determine if a warm start reset has occurred, then they may enable one or more of the
    following callback definitions AND provide a call back function name for the respective callback

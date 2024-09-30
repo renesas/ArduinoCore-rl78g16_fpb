@@ -60,9 +60,7 @@ void R_Config_ADC_Create(void)
     /* Set INTAD priority */
     ADPR1 = 1U;
     ADPR0 = 1U;
-    /* Set ANI4 pin */
-    PMC0 |= 0x20U;
-    PM0 |= 0x20U;
+
     TSSEL0 &= 0xDFU;
     ADM0 = _00_AD_CONVERSION_CLOCK_8 | _00_AD_TIME_MODE_NORMAL_1;
     ADM2 = _00_AD_RESOLUTION_10BIT;
@@ -79,7 +77,7 @@ void R_Config_ADC_Create(void)
 ***********************************************************************************************************************/
 void R_Config_ADC_Start(void)
 {
-    ADIF = 0U;    /* clear INTAD interrupt flag */
+	ADIF = 0U;    /* clear INTAD interrupt flag */
     ADMK = 0U;    /* enable INTAD interrupt */
     ADCS = 1U;    /* enables conversion operation */
 }

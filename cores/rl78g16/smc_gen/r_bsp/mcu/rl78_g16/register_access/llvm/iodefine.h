@@ -1,11 +1,30 @@
-/************************************************************************/
-/* Header file generated from device file:                              */
-/*    DR5F121BC.DVF                                                     */
-/*    V1.00 (2022/07/01)                                                */
-/*    Copyright(C) 2022 Renesas                                         */
-/* Tool Version: 4.0.15                                                 */
-/* Date Generated: 2023/06/02                                           */
-/************************************************************************/
+/***********************************************************************************************************************
+* DISCLAIMER
+* This software is supplied by Renesas Electronics Corporation and is only intended for use with Renesas products. No 
+* other uses are authorized. This software is owned by Renesas Electronics Corporation and is protected under all 
+* applicable laws, including copyright laws. 
+* THIS SOFTWARE IS PROVIDED "AS IS" AND RENESAS MAKES NO WARRANTIES REGARDING
+* THIS SOFTWARE, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, 
+* FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. ALL SUCH WARRANTIES ARE EXPRESSLY DISCLAIMED. TO THE MAXIMUM 
+* EXTENT PERMITTED NOT PROHIBITED BY LAW, NEITHER RENESAS ELECTRONICS CORPORATION NOR ANY OF ITS AFFILIATED COMPANIES 
+* SHALL BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES FOR ANY REASON RELATED TO THIS 
+* SOFTWARE, EVEN IF RENESAS OR ITS AFFILIATES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+* Renesas reserves the right, without notice, to make changes to this software and to discontinue the availability of 
+* this software. By using this software, you agree to the additional terms and conditions found by accessing the 
+* following link:
+* http://www.renesas.com/disclaimer
+*
+* Copyright (C) 2023 Renesas Electronics Corporation. All rights reserved.
+***********************************************************************************************************************/
+/***********************************************************************************************************************
+* File Name    : iodefine.h
+* Description  : 
+***********************************************************************************************************************/
+/***********************************************************************************************************************
+* History : DD.MM.YYYY Version  Description
+*         : 31.01.2023 1.50     First Release.
+*         : 31.08.2023 1.61     Updated device file.
+***********************************************************************************************************************/
 
 #ifndef __INTRINSIC_FUNCTIONS
 #define __INTRINSIC_FUNCTIONS
@@ -322,8 +341,8 @@ union un_pr11h {
 #define P13 (*(volatile union un_p13 *)0xFFF0D).p13
 #define P13_bit (*(volatile union un_p13 *)0xFFF0D).BIT
 #define SDR00 (*(volatile unsigned short *)0xFFF10)
-#define SIO00 (*(volatile unsigned char *)0xFFF10)
 #define TXD0 (*(volatile unsigned char *)0xFFF10)
+#define SIO00 (*(volatile unsigned char *)0xFFF10)
 #define SDR01 (*(volatile unsigned short *)0xFFF12)
 #define RXD0 (*(volatile unsigned char *)0xFFF12)
 #define TDR00 (*(volatile unsigned short *)0xFFF18)
@@ -359,8 +378,8 @@ union un_pr11h {
 #define SDR02 (*(volatile unsigned short *)0xFFF44)
 #define TXD1 (*(volatile unsigned char *)0xFFF44)
 #define SDR03 (*(volatile unsigned short *)0xFFF46)
-#define RXD1 (*(volatile unsigned char *)0xFFF46)
 #define SIO11 (*(volatile unsigned char *)0xFFF46)
+#define RXD1 (*(volatile unsigned char *)0xFFF46)
 #define SDR10 (*(volatile unsigned short *)0xFFF48)
 #define TXD2 (*(volatile unsigned char *)0xFFF48)
 #define SIO20 (*(volatile unsigned char *)0xFFF48)
@@ -562,8 +581,8 @@ union un_pr11h {
 #define PIF3 IF0L_bit.no4
 #define PIF4 IF0L_bit.no5
 #define PIF5 IF0L_bit.no6
-#define STIF0 IF0L_bit.no7
 #define CSIIF00 IF0L_bit.no7
+#define STIF0 IF0L_bit.no7
 #define IICIF00 IF0L_bit.no7
 #define SRIF0 IF0H_bit.no0
 #define SREIF0 IF0H_bit.no1
@@ -571,12 +590,12 @@ union un_pr11h {
 #define TMIF00 IF0H_bit.no3
 #define TMIF01 IF0H_bit.no4
 #define STIF1 IF0H_bit.no5
-#define SRIF1 IF0H_bit.no6
 #define CSIIF11 IF0H_bit.no6
+#define SRIF1 IF0H_bit.no6
 #define IICIF11 IF0H_bit.no6
 #define SREIF1 IF0H_bit.no7
-#define STIF2 IF1L_bit.no0
 #define CSIIF20 IF1L_bit.no0
+#define STIF2 IF1L_bit.no0
 #define IICIF20 IF1L_bit.no0
 #define SRIF2 IF1L_bit.no1
 #define SREIF2 IF1L_bit.no2
@@ -600,9 +619,9 @@ union un_pr11h {
 #define PMK3 MK0L_bit.no4
 #define PMK4 MK0L_bit.no5
 #define PMK5 MK0L_bit.no6
-#define STMK0 MK0L_bit.no7
 #define CSIMK00 MK0L_bit.no7
 #define IICMK00 MK0L_bit.no7
+#define STMK0 MK0L_bit.no7
 #define SRMK0 MK0H_bit.no0
 #define SREMK0 MK0H_bit.no1
 #define TMMK01H MK0H_bit.no2
@@ -613,8 +632,8 @@ union un_pr11h {
 #define CSIMK11 MK0H_bit.no6
 #define IICMK11 MK0H_bit.no6
 #define SREMK1 MK0H_bit.no7
-#define STMK2 MK1L_bit.no0
 #define CSIMK20 MK1L_bit.no0
+#define STMK2 MK1L_bit.no0
 #define IICMK20 MK1L_bit.no0
 #define SRMK2 MK1L_bit.no1
 #define SREMK2 MK1L_bit.no2
@@ -638,22 +657,22 @@ union un_pr11h {
 #define PPR03 PR00L_bit.no4
 #define PPR04 PR00L_bit.no5
 #define PPR05 PR00L_bit.no6
+#define IICPR000 PR00L_bit.no7
 #define STPR00 PR00L_bit.no7
 #define CSIPR000 PR00L_bit.no7
-#define IICPR000 PR00L_bit.no7
 #define SRPR00 PR00H_bit.no0
 #define SREPR00 PR00H_bit.no1
 #define TMPR001H PR00H_bit.no2
 #define TMPR000 PR00H_bit.no3
 #define TMPR001 PR00H_bit.no4
 #define STPR01 PR00H_bit.no5
-#define SRPR01 PR00H_bit.no6
-#define CSIPR011 PR00H_bit.no6
 #define IICPR011 PR00H_bit.no6
+#define CSIPR011 PR00H_bit.no6
+#define SRPR01 PR00H_bit.no6
 #define SREPR01 PR00H_bit.no7
-#define STPR02 PR01L_bit.no0
-#define CSIPR020 PR01L_bit.no0
 #define IICPR020 PR01L_bit.no0
+#define CSIPR020 PR01L_bit.no0
+#define STPR02 PR01L_bit.no0
 #define SRPR02 PR01L_bit.no1
 #define SREPR02 PR01L_bit.no2
 #define TMPR003H PR01L_bit.no3
@@ -676,21 +695,21 @@ union un_pr11h {
 #define PPR13 PR10L_bit.no4
 #define PPR14 PR10L_bit.no5
 #define PPR15 PR10L_bit.no6
-#define STPR10 PR10L_bit.no7
-#define CSIPR100 PR10L_bit.no7
 #define IICPR100 PR10L_bit.no7
+#define CSIPR100 PR10L_bit.no7
+#define STPR10 PR10L_bit.no7
 #define SRPR10 PR10H_bit.no0
 #define SREPR10 PR10H_bit.no1
 #define TMPR101H PR10H_bit.no2
 #define TMPR100 PR10H_bit.no3
 #define TMPR101 PR10H_bit.no4
 #define STPR11 PR10H_bit.no5
+#define IICPR111 PR10H_bit.no6
 #define SRPR11 PR10H_bit.no6
 #define CSIPR111 PR10H_bit.no6
-#define IICPR111 PR10H_bit.no6
 #define SREPR11 PR10H_bit.no7
-#define STPR12 PR11L_bit.no0
 #define CSIPR120 PR11L_bit.no0
+#define STPR12 PR11L_bit.no0
 #define IICPR120 PR11L_bit.no0
 #define SRPR12 PR11L_bit.no1
 #define SREPR12 PR11L_bit.no2

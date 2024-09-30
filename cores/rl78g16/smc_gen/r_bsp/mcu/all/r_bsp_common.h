@@ -38,7 +38,11 @@
 *                                - R_BSP_SoftwareDelay
 *         : 11.11.2022 1.40     Added Xm to the clock mode comment.
 *                               Added RL78/G22 resource to clock mode comment.
-*         : 28.12.2022 1.50     Added RL78/G16 resource to clock mode comment.
+*         : 31.01.2023 1.50     Added RL78/G16 resource to clock mode comment.
+*         : 28.02.2023 1.60     Changed the version of smart configurator to check to 1060.
+*                               Added RL78/G24 resource to clock mode comment.
+*                               Removed ADCLK from the clock mode comment.
+*                               Removed ADCLK from e_clock_mode_t.
 ***********************************************************************************************************************/
 
 /*************************************************
@@ -57,7 +61,7 @@
 #ifndef R_BSP_COMMON_H
 #define R_BSP_COMMON_H
 
-#if BSP_CFG_CONFIGURATOR_VERSION < 1030
+#if BSP_CFG_CONFIGURATOR_VERSION < 1060
 #error "Make sure that the value of BSP_CFG_CONFIGURATOR_VERSION defined in r_config/r_bsp_config.h matches the version of Smart Configurator you are using. If they do not match, change the settings. If they match, you need to upgrade your Smart Configurator. Please upgrade Smart Configurator."
 #endif
 
@@ -71,15 +75,14 @@
  * n = this clock may not be available depending on the number of terminals. 
  * RL78 MCU supported clocks
  *
- * Clock  G23 F24 F23 G15 G22 G16
- * ------ --- --- --- --- --- ---
- * HIOCLK  X   X   X   X   X   X
- * SYSCLK  Xm  X   X   Xn  Xm  Xn
- * SXCLK   Xm  Xn  Xn      Xm  Xn
- * MIOCLK  X               X
- * LOCLK   X   X   X       X
- * PLLCLK      X   X
- * ADCLK       X   X
+ * Clock  G23 F24 F23 G15 G22 G16 G24
+ * ------ --- --- --- --- --- --- ---
+ * HIOCLK  X   X   X   X   X   X   X
+ * SYSCLK  Xm  X   X   Xn  Xm  Xn  Xm
+ * SXCLK   Xm  Xn  Xn      Xm  Xn  Xm
+ * MIOCLK  X               X       X
+ * LOCLK   X   X   X       X       X
+ * PLLCLK      X   X               X
 */
 typedef enum
 {
@@ -88,8 +91,7 @@ typedef enum
     SXCLK,      // Subsystem clock
     MIOCLK,     // Middle-speed on-chip oscillator
     LOCLK,      // Low-speed on-chip oscillator
-    PLLCLK,     // PLL clock
-    ADCLK       // A/D conversion clock
+    PLLCLK      // PLL clock
 } e_clock_mode_t;
 
 /* Error identification */

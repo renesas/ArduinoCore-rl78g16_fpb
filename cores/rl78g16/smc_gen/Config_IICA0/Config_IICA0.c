@@ -256,20 +256,15 @@ void R_Config_IICA0_Master_SetClock(uint32_t clock) {
     /* Set INTIICA0 low priority */
     IICAPR10 = 1U;
     IICAPR00 = 1U;
-    /* Set SCLA0, SDAA0 pin */
-    POM0 |= 0xC0U;
-    PMC0 &= 0x3FU;
-    P0 &= 0x3FU;
-    PM0 |= 0xC0U;
-    SMC0 = 0U;
 
 //    IICWL0 = (uint8_t)(ceil((configCPU_CLOCK_HZ / 2 * coeffL) / clock));
 //    IICWH0 = (uint8_t)(ceil((configCPU_CLOCK_HZ / 2 * coeffH) / clock));
+//    IICWL0 = (uint8_t)((configCPU_CLOCK_HZ / 2 * coeffL) / clock);
+//    IICWH0 = (uint8_t)((configCPU_CLOCK_HZ / 2 * coeffH) / clock);
+    IICWL0 = (uint8_t)((configCPU_CLOCK_HZ * coeffL) / clock);
+    IICWH0 = (uint8_t)((configCPU_CLOCK_HZ * coeffH) / clock);
 
-    IICWL0 = (uint8_t)((configCPU_CLOCK_HZ / 2 * coeffL) / clock);
-    IICWH0 = (uint8_t)((configCPU_CLOCK_HZ / 2 * coeffH) / clock);
-
-//    IICWL0 = 0x5E;
+    //    IICWL0 = 0x5E;
 //    IICWH0 = 0x6A;
 
     DFC0 = 0U;    /* digital filter off */

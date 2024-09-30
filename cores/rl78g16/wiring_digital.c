@@ -1,32 +1,3 @@
-/*
-  wiring_digital.c - digital input and output functions
-  Part of Arduino - http://www.arduino.cc/
-
-  Copyright (c) 2005-2006 David A. Mellis
-
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
-
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
-
-  You should have received a copy of the GNU Lesser General
-  Public License along with this library; if not, write to the
-  Free Software Foundation, Inc., 59 Temple Place, Suite 330,
-  Boston, MA  02111-1307  USA
-
-  Modified 28 September 2010 by Mark Sproul
-
-  $Id: wiring.c 248 2007-02-03 15:36:30Z mellis $
-*/
-/*
- * Modified  4 Mar  2017 by Yuuki Okamiya for RL78/G13
-*/
-
 #define ARDUINO_MAIN
 #include "wiring_private.h"
 #include "pins_variant.h"
@@ -37,11 +8,10 @@
 #define PMPUPIMPOM_CHECK_ENABLE        /* Do not change invalid bits */
 
 extern bool g_u8AnalogWriteAvailableTable[NUM_DIGITAL_PINS];
-extern volatile SwPwm g_SwPwm[NUM_SWPWM_PINS];
 extern const PinTableType * pinTablelist[NUM_DIGITAL_PINS];
 extern Pwm_func pwm_ch[PWM_CH_NUM];
 extern int8_t get_pwm_channel(uint8_t pwm_num);
-
+extern bool g_u8AnalogReadAvailableTable[NUM_ANALOG_INPUTS];
 /**********************************************************************************************************************
  * Function Name: pintable setting
  * Description  : Set the pintable.
@@ -86,11 +56,6 @@ void pinMode(pin_size_t pin, PinMode pinMode)
         {
             return;
         }
-
-        //PinTableType pin_tbl;
-        //p = (PinTableType*)&pin_tbl;
-        //getPinTable(pin,p);
-
         const PinTableType **pp;
         PinTableType *p;
         pp = &pinTablelist[pin];
@@ -119,12 +84,22 @@ void pinMode(pin_size_t pin, PinMode pinMode)
         if (0!=p->pmca)
         {
             *p->portModeControlARegisterAddr &= (unsigned long)~(p->pmca);
+            int8_t pin_index = (int8_t)pin - ANALOG_PIN_START_NUMBER;
+            if ((pin_index >= 0) && (pin_index < NUM_ANALOG_INPUTS))
+            {
+                g_u8AnalogReadAvailableTable[pin_index] = false;
+            }
         }
 #endif //  defined(G22_FPB) || defined(G23_FPB)
 #if defined(G16_FPB)
         if (0!=p->pmc)
         {
             *p->portModeControlRegisterAddr &= (unsigned long)~(p->pmc);
+            int8_t pin_index = (int8_t)pin - ANALOG_PIN_START_NUMBER;
+            if ((pin_index >= 0) && (pin_index < NUM_ANALOG_INPUTS))
+            {
+                g_u8AnalogReadAvailableTable[pin_index] = false;
+            }
         }
 #endif
         /* clear pmct register when touch pin */
@@ -278,11 +253,6 @@ void digitalWrite(pin_size_t pin, PinStatus val)
 // int digitalRead(uint8_t pin)
 PinStatus digitalRead(pin_size_t pin){
     if (pin < NUM_DIGITAL_PINS) {
-        //PinTableType* p;
-        //PinTableType pin_tbl;
-        //p =(PinTableType*)&pin_tbl;
-        //getPinTable(pin,p);
-
         const PinTableType ** pp;
         PinTableType * p;
         pp = &pinTablelist[pin];
@@ -305,23 +275,17 @@ PinStatus digitalRead(pin_size_t pin){
  *********************************************************************************************************************/
 void DisableDigitalInput(uint8_t pin)
 {
-
+#if defined(G23_FPB)
     if (pin < NUM_DIGITAL_PINS) {
-        //PinTableType *p;
-        //PinTableType pin_tbl;
-        //p = (PinTableType*)&pin_tbl;
-        //getPinTable(pin,p);
-
         const PinTableType ** pp;
         PinTableType * p;
         pp = &pinTablelist[pin];
         p = (PinTableType *)*pp;
-#if defined(G23_FPB)
         if (0 != p->pdidis){    /* can be changed */
             *p->portDigInputDisRegisterAddr |= (unsigned long)(0x1 << p->bit);    /* Input disable */
         }
-#endif // G23_FPB
     }
+#endif // G23_FPB
 }
 
 /**********************************************************************************************************************
@@ -334,11 +298,6 @@ void EnableDigitalInput(uint8_t pin)
 {
 
     if (pin < NUM_DIGITAL_PINS) {
-        //PinTableType *p;
-        //PinTableType pin_tbl;
-        //p = (PinTableType*)&pin_tbl;
-        //getPinTable(pin,p);
-
         const PinTableType ** pp;
         PinTableType * p;
         pp = &pinTablelist[pin];

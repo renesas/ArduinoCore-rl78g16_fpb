@@ -14,7 +14,7 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2023 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
 * File Name    : r_bsp.h
@@ -23,7 +23,7 @@
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
 * History : DD.MM.YYYY Version  Description
-*         : 28.12.2022 1.50     First Release
+*         : 31.01.2023 1.50     First Release
 ***********************************************************************************************************************/
 /* Make sure that no other platforms have already been defined. Do not touch this! */
 #ifdef  PLATFORM_DEFINED

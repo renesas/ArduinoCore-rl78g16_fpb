@@ -14,7 +14,7 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2022 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2023 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
 * File Name    : r_bsp_config_reference.h
@@ -23,7 +23,12 @@
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
 * History : DD.MM.YYYY Version  Description
-*         : 28.12.2022 1.50     First Release
+*         : 31.01.2023 1.50     First Release
+*         : 28.02.2023 1.60     Added the version number of Smart Configurator.
+*                               Modified the comment related to the version number of Smart Configurator.
+*         : 31.08.2023 1.61     Changed the initial values comments in the following macro definitions.
+*                                - BSP_CFG_SUBWAITTIME
+*                                - BSP_CFG_FIHWAITTIME
 ***********************************************************************************************************************/
 
 #ifndef R_BSP_CONFIG_REF_HEADER_FILE
@@ -151,8 +156,8 @@
  111 : TI02/TO02 - -
 */
 #define BSP_CFG_PIOR06 (0)
-#define BSP_CFG_PIOR05 (1)
-#define BSP_CFG_PIOR04 (1)
+#define BSP_CFG_PIOR05 (0)
+#define BSP_CFG_PIOR04 (0)
 
 /* Peripheral I/O redirection register(PIOR1-PIOR12/PIOR11/PIOR10)
    10 pins 
@@ -248,7 +253,7 @@
  10 : TI04/TO04 - P17
  11 : TI04/TO04 - P07
 */
-#define BSP_CFG_PIOR14 (1)
+#define BSP_CFG_PIOR14 (0)
 #define BSP_CFG_PIOR13 (0)
 
 /* Peripheral I/O redirection register(PIOR1-PIOR15)
@@ -259,7 +264,7 @@
  0 : TI05/TO05 - P122
  1 : TI05/TO05 - P03
 */
-#define BSP_CFG_PIOR15 (1)
+#define BSP_CFG_PIOR15 (0)
 
 /* Peripheral I/O redirection register(PIOR1-PIOR16)
    10/16 pins 
@@ -279,7 +284,7 @@
  0 : TI07/TO07 - P121
  1 : TI07/TO07 - P05
 */
-#define BSP_CFG_PIOR17 (1)
+#define BSP_CFG_PIOR17 (0)
 
 /* Peripheral I/O redirection register(PIOR0-PIOR21/PIOR20)
    10 pins 
@@ -573,8 +578,8 @@
  10 : INTP2 - P13
  11 : INTP2 - P14
 */
-#define BSP_CFG_PIOR43 (1)
-#define BSP_CFG_PIOR42 (1)
+#define BSP_CFG_PIOR43 (0)
+#define BSP_CFG_PIOR42 (0)
 
 /* Peripheral I/O redirection register(PIOR4-PIOR45/PIOR44)
      10 pins 
@@ -611,8 +616,8 @@
  10 : INTP4 - P121
  11 : INTP4 - P13
 */
-#define BSP_CFG_PIOR47 (1)
-#define BSP_CFG_PIOR46 (1)
+#define BSP_CFG_PIOR47 (0)
+#define BSP_CFG_PIOR46 (0)
 
 /* Peripheral I/O redirection register(PIOR5-PIOR51/PIOR50)
    10 pins 
@@ -655,7 +660,7 @@
  11 : INTP6 - P60
 */
 #define BSP_CFG_PIOR53 (0)
-#define BSP_CFG_PIOR52 (1)
+#define BSP_CFG_PIOR52 (0)
 
 /* Peripheral I/O redirection register(PIOR5-PIOR55/PIOR54)
    10 pins 
@@ -844,11 +849,13 @@
    2021-07 : 1010
    2021-10 : 1010
    2022-01 : 1030
+   2023-04 : 1060
    If you are using the standalone version of Smart Configurator,
    set the following values.
    v1.0.1  : 1001
    v1.1.0  : 1010
    v1.3.0  : 1030
+   v1.6.0  : 1060
 */
 #define BSP_CFG_CONFIGURATOR_VERSION    (1001)
 
@@ -1038,11 +1045,13 @@
 
 /* Loop count using the main system clock. */
 /* The loop count refers to a loop consisting of a "for" statement that executes a single NOP instruction. */
-/* Subsystem clock oscillation stabilization wait time(T.B.D) */
-#define BSP_CFG_SUBWAITTIME              (800000U)
+/* Subsystem clock oscillation stabilization time.
+   If the main system clock is 16 MHz, 350000 means 306 ms. */
+#define BSP_CFG_SUBWAITTIME              (350000U)
 
-/* High-speed on-chip oscillator  clock oscillation stabilization wait time(T.B.D) */
-#define BSP_CFG_FIHWAITTIME              (30U)
+/* High-speed on-chip oscillator clock stabilization time.
+   If the main system clock is 16 MHz, 7 means 7 us. */
+#define BSP_CFG_FIHWAITTIME              (7U)
 
 /* If the user would like to determine if a warm start reset has occurred, then they may enable one or more of the
    following callback definitions AND provide a call back function name for the respective callback

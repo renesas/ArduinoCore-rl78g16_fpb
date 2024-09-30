@@ -410,92 +410,6 @@ const PinTableType pinTable_23 =
     getPortModeControlRegisterAddr(DIGITAL_PIN_23),
 };
 
-const PinTableType pinTable_24 =
-{
-    DIGITAL_PIN_MASK_24,
-    DIGITAL_PIN_BIT_24,
-    0,
-    DIGITAL_PIN_PMC_24,
-    DIGITAL_PIN_PM_24,
-    DIGITAL_PIN_PU_24,
-    DIGITAL_PIN_POM_24,
-
-    getPortModeRegisterAddr(DIGITAL_PIN_24),
-    getPortPullUpRegisterAddr(DIGITAL_PIN_24),
-    getPortOutputModeRegisterAddr(DIGITAL_PIN_24),
-    getPortRegisterAddr(DIGITAL_PIN_24),
-    getPortModeControlRegisterAddr(DIGITAL_PIN_24),
-};
-
-const PinTableType pinTable_25 =
-{
-    DIGITAL_PIN_MASK_25,
-    DIGITAL_PIN_BIT_25,
-    0,
-    DIGITAL_PIN_PMC_25,
-    DIGITAL_PIN_PM_25,
-    DIGITAL_PIN_PU_25,
-    DIGITAL_PIN_POM_25,
-
-    getPortModeRegisterAddr(DIGITAL_PIN_25),
-    getPortPullUpRegisterAddr(DIGITAL_PIN_25),
-    getPortOutputModeRegisterAddr(DIGITAL_PIN_25),
-    getPortRegisterAddr(DIGITAL_PIN_25),
-    getPortModeControlRegisterAddr(DIGITAL_PIN_25),
-};
-
-const PinTableType pinTable_26 =
-{
-    DIGITAL_PIN_MASK_26,
-    DIGITAL_PIN_BIT_26,
-    0,
-    DIGITAL_PIN_PMC_26,
-    DIGITAL_PIN_PM_26,
-    DIGITAL_PIN_PU_26,
-    DIGITAL_PIN_POM_26,
-
-    getPortModeRegisterAddr(DIGITAL_PIN_26),
-    getPortPullUpRegisterAddr(DIGITAL_PIN_26),
-    getPortOutputModeRegisterAddr(DIGITAL_PIN_26),
-    getPortRegisterAddr(DIGITAL_PIN_26),
-    getPortModeControlRegisterAddr(DIGITAL_PIN_26),
-};
-
-const PinTableType pinTable_27 =
-{
-    DIGITAL_PIN_MASK_27,
-    DIGITAL_PIN_BIT_27,
-    0,
-    DIGITAL_PIN_PMC_27,
-    DIGITAL_PIN_PM_27,
-    DIGITAL_PIN_PU_27,
-    DIGITAL_PIN_POM_27,
-
-    getPortModeRegisterAddr(DIGITAL_PIN_27),
-    getPortPullUpRegisterAddr(DIGITAL_PIN_27),
-    getPortOutputModeRegisterAddr(DIGITAL_PIN_27),
-    getPortRegisterAddr(DIGITAL_PIN_27),
-    getPortModeControlRegisterAddr(DIGITAL_PIN_27),
-};
-
-const PinTableType pinTable_28 =
-{
-    DIGITAL_PIN_MASK_28,
-    DIGITAL_PIN_BIT_28,
-    0,
-    DIGITAL_PIN_PMC_28,
-    DIGITAL_PIN_PM_28,
-    DIGITAL_PIN_PU_28,
-    DIGITAL_PIN_POM_28,
-
-    getPortModeRegisterAddr(DIGITAL_PIN_28),
-    getPortPullUpRegisterAddr(DIGITAL_PIN_28),
-    getPortOutputModeRegisterAddr(DIGITAL_PIN_28),
-    getPortRegisterAddr(DIGITAL_PIN_28),
-    getPortModeControlRegisterAddr(DIGITAL_PIN_28),
-};
-
-
 const PinTableType * const pinTablelist[NUM_DIGITAL_PINS] =
 {
     /* 0 ~ 9 */
@@ -523,11 +437,6 @@ const PinTableType * const pinTablelist[NUM_DIGITAL_PINS] =
     &pinTable_20,
     &pinTable_21,
     &pinTable_22,
-    &pinTable_23,
-    &pinTable_24,
-    &pinTable_25,
-    &pinTable_26,
-    &pinTable_27,
-    &pinTable_28
+    &pinTable_23
 
 };

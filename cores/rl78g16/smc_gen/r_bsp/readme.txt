@@ -1,4 +1,4 @@
-Version          : BSP v1.50 (Alpha4)
-Release Date     : 2022/12/28
+Version          : BSP v1.62
+Release Date     : 2023/11/30
 Support Compiler : CCRL, LLVM, ICCRL
 
