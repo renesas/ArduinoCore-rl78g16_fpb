@@ -15,7 +15,7 @@
 class HardwareUart : public arduino::HardwareSerial
 {
   public:
-	HardwareUart(uint8_t rxen);
+    HardwareUart(uint8_t rxen);
     /*API*/
     void begin(unsigned long baud) override ;
     void begin(unsigned long baud, uint16_t config) override ;

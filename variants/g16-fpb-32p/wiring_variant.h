@@ -11,8 +11,10 @@ extern "C"{
 #endif
 
 #define ANALOG_PIN_START_NUMBER (23)
-//#define MAX_CYCLIC_HANDLER        (8)
-#define EXTERNAL_NUM_INTERRUPTS (7)
+#define MAX_CYCLIC_HANDLER       (4)
+#define EXTERNAL_NUM_INTERRUPTS  (7)
+
+#define TEMPERATURE_OFFSET 400
 
 /* PWM defines. */
 #define PWM_MIN         0

@@ -42,6 +42,16 @@ Macro definitions (Register bit)
 #define _04_SAU0_CLOCK_SUPPLY            (0x04U)    /* supplies input clock */
 
 /*
+    Peripheral Reset Control Register 0 (PPR0)
+*/
+/* Peripheral reset control of SAU1 (SAU1RES) */
+#define _00_SAU1_RESET_RELEASE           (0x00U)    /* released from the reset state */
+#define _08_SAU1_RESET_SET               (0x08U)    /* reset */
+/* Peripheral reset control of IICA0 (IICA0RES) */
+#define _00_SAU0_RESET_RELEASE           (0x00U)    /* released from the reset state */
+#define _04_SAU0_RESET_SET               (0x04U)    /* reset */
+
+/*  
     Serial Clock Select Register m (SPSm)
 */
 /* Section of operation clock (CKm1) (PRSm13 - PRSm10) */
@@ -276,6 +286,27 @@ Typedef definitions
 Global functions
 ***********************************************************************************************************************/
 /* Start user code for function. Do not edit comment generated here */
+#define _0000_SPI_STATUS_CLEAR         (0x0000U)
+#define _8000_SPI_STATUS_SENDEND       (0x8000U)
+#define _4000_SPI_STATUS_RECEIVEEND    (0x4000U)
+#define _00FF_SPI_STATUS_ERROR_MASK    (0x00FFU)
+#define _0080_SPI_STATUS_ERROR_TIMEOUT (0x0080U)
+#define _0001_SPI_STATUS_ERROR_OVERRUN (_0001_SAU_OVERRUN_ERROR)
+
+#define SPI_CLOCK_DIV2   (  2U)
+#define SPI_CLOCK_DIV4   (  4U)
+#define SPI_CLOCK_DIV8   (  8U)
+#define SPI_CLOCK_DIV16  ( 16U)
+#define SPI_CLOCK_DIV32  ( 32U)
+#define SPI_CLOCK_DIV64  ( 64U)
+#define SPI_CLOCK_DIV128 (128U)
+
+#define SPI_MODE0        ((uint8_t)(_3000_SAU_TIMING_4 >> 8))
+#define SPI_MODE1        ((uint8_t)(_1000_SAU_TIMING_2 >> 8))
+#define SPI_MODE2        ((uint8_t)(_2000_SAU_TIMING_3 >> 8))
+#define SPI_MODE3        ((uint8_t)(_0000_SAU_TIMING_1 >> 8))
+
+#define SPI_MODE_MASK    ((uint16_t)_3000_SAU_TIMING_4)
 /* End user code. Do not edit comment generated here */
 #endif
 

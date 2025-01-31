@@ -26,8 +26,9 @@ int main(void)
 #elif defined(G16_FPB)
     R_Config_IT_Create();    /* Create 1ms Interval Timer */
     R_Config_IT_Start();    /* Start 1ms Interval Timer */
+    R_Config_TAU0_5_Create(); // start periodic operation
+    R_Config_TAU0_5_Start(); // start periodic operation
 #endif
-
     R_Config_TAU0_1_Micros_Create();
     R_Config_TAU0_1_Micros_Start();
 
@@ -45,9 +46,9 @@ int main(void)
     R_SAU0_Set_Reset();
     R_SAU0_Set_PowerOff();
 #endif
-#if !defined(UART1_CHANNEL) || UART1_CHANNEL == 0
-    R_Config_UART1_Stop();
-#endif
+// #if !defined(UART1_CHANNEL) || UART1_CHANNEL == 0
+//    R_Config_UART1_Stop();
+//#endif
 #if !defined(UART2_CHANNEL) || (UART2_CHANNEL == 0)
 #if defined(G22_FPB) || defined(G23_FPB)
 

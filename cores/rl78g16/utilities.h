@@ -7,7 +7,7 @@
 #define PM_NORMAL_MODE	0
 #define PM_HALT_MODE	1
 #define PM_STOP_MODE	2
-#define PM_SNOOZE_MODE	3
+//#define PM_SNOOZE_MODE	3 // Does not support SNOOZE
 
 /* Operation Clock Mode. */
 #define CLK_HIGH_SPEED_MODE		0

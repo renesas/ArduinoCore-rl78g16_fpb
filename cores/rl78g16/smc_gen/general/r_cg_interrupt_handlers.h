@@ -25,6 +25,8 @@
 * Creation Date    : 
 ***********************************************************************************************************************/
 
+#include "pins_variant.h"
+
 #ifndef INTERRUPT_HANDLER_H
 #define INTERRUPT_HANDLER_H
 /*
@@ -65,7 +67,22 @@ void INT_P5(void) __attribute__ ((interrupt));
 /*
  * INT_CSI00/INT_IIC00/INT_ST0 (0x12)
  */
+// 20241015
+#if defined(UART_CHANNEL) && ( UART_CHANNEL == 0 ) && defined(CSI_CHANNEL0)
+void r_Config_CSI00_UART0_interrupt_switching(void) __attribute__ ((interrupt));
+void r_Config_CSI00_interrupt(void);
+void r_Config_UART0_interrupt_send(void);
+#else
+#if defined(CSI_CHANNEL0)
+void r_Config_CSI00_interrupt (void) __attribute__ ((interrupt));
+#endif
+#if ( defined(UART_CHANNEL) && ( UART_CHANNEL == 0 ) )
 void r_Config_UART0_interrupt_send(void) __attribute__ ((interrupt));
+#endif
+
+#endif  // defined(UART_CHANNEL) && ( UART_CHANNEL == 0 ) && defined(CSI_CHANNEL0)
+
+void INT_ST0(void) __attribute__ ((interrupt));
 
 /*
  * INT_SR0 (0x14)
@@ -95,25 +112,23 @@ void INT_TM00(void) __attribute__ ((interrupt));
 /*
  * INT_ST1 (0x1E)
  */
-// void INT_ST1(void) __attribute__ ((interrupt));
-void r_Config_UART1_interrupt_send(void) __attribute__ ((interrupt));
+void INT_ST1(void) __attribute__ ((interrupt));
+// void r_Config_UART1_interrupt_send(void) __attribute__ ((interrupt));
 /*
  * INT_SR1/INT_CSI11/INT_IIC11 (0x20)
  */
-// void r_Config_CSI11_interrupt(void) __attribute__ ((interrupt));
-void r_Config_UART1_interrupt_receive(void) __attribute__ ((interrupt));
+// void r_Config_UART1_interrupt_receive(void) __attribute__ ((interrupt));
 /*
  * INT_SRE1 (0x22)
  */
-// void INT_SRE1(void) __attribute__ ((interrupt));
-void r_Config_UART1_interrupt_error(void) __attribute__ ((interrupt));
+void INT_SRE1(void) __attribute__ ((interrupt));
+// void r_Config_UART1_interrupt_error(void) __attribute__ ((interrupt));
 
 /*
  * INT_ST2/INT_CSI20/INT_IIC20 (0x24)
  */
-void INT_ST2(void) __attribute__ ((interrupt));
-//void INT_CSI20(void) __attribute__ ((interrupt));
-//void INT_IIC20(void) __attribute__ ((interrupt));
+//void INT_ST2(void) __attribute__ ((interrupt));
+void r_Config_CSI20_interrupt (void) __attribute__ ((interrupt));
 
 /*
  * INT_SR2 (0x26)
@@ -160,7 +175,7 @@ void r_Config_ADC_interrupt(void) __attribute__ ((interrupt));
 /*
  * INT_RTC (0x34)
  */
-void INT_RTC(void) __attribute__ ((interrupt));
+void r_Config_RTC_interrupt (void) __attribute__ ((interrupt));
 
 /*
  * INT_RTIT (0x36)
@@ -184,16 +199,16 @@ void INT_TM04(void) __attribute__ ((interrupt));
 /*
  * INT_TM05 (0x3C)
  */
-//void r_Config_TAU0_5_interrupt(void) __attribute__ ((interrupt));
-void r_Config_TAU0_5_Measure_Signal_interrupt(void) __attribute__ ((interrupt));
-void r_Config_TAU0_5_Square_Wave_interrupt(void) __attribute__ ((interrupt));
+void r_Config_TAU0_5_interrupt(void) __attribute__ ((interrupt));
+// void r_Config_TAU0_5_Measure_Signal_interrupt(void) __attribute__ ((interrupt));
+// void r_Config_TAU0_5_Square_Wave_interrupt(void) __attribute__ ((interrupt));
 void INT_TM03(void) __attribute__ ((interrupt));
 /*
  * INT_TM06 (0x3E)
  */
-// void r_Config_TAU0_6_interrupt(void) __attribute__ ((interrupt));
-void r_Config_TAU0_67_PWM_channel3_interrupt(void) __attribute__ ((interrupt));
-void INT_TM06(void) __attribute__ ((interrupt));
+void r_Config_TAU0_6_interrupt(void) __attribute__ ((interrupt));
+// void r_Config_TAU0_67_PWM_channel3_interrupt(void) __attribute__ ((interrupt));
+// void INT_TM06(void) __attribute__ ((interrupt));
 
 /*
  * INT_TM07 (0x40)

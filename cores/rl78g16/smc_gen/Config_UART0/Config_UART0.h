@@ -57,6 +57,5 @@ MD_STATUS R_Config_UART0_Send (uint8_t * const tx_buf, uint16_t tx_num);
 MD_STATUS R_Config_UART0_Receive (uint8_t * const rx_buf, uint16_t rx_num);
 void R_Config_UART0_Create_UserInit (void);
 /* Start user code for function. Do not edit comment generated here */
-
 /* End user code. Do not edit comment generated here */
 #endif

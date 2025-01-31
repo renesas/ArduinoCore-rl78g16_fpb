@@ -37,6 +37,7 @@ Includes
 #include "r_cg_macrodriver.h"
 #include "Config_ADC.h"
 /* Start user code for include. Do not edit comment generated here */
+#include <Arduino.h>
 /* End user code. Do not edit comment generated here */
 #include "r_cg_userdefine.h"
 
@@ -215,19 +216,32 @@ void R_Config_ADC_Get_Result_8bit(uint8_t * const buffer)
     *buffer = ADCRH;
 }
 
-void R_Config_ADC_Snooze_Start(void)
+// copy from G23 needs modification
+void R_Config_ADC_Set_TemperatureSensor(void)
 {
-    ADIF = 0U;    /* clear INTAD interrupt flag */
-    ADMK = 0U;    /* enable INTAD interrupt */
-    ADCE = 1U;    /* enable AD comparator */
-}
-
-void R_Config_ADC_Snooze_Stop(void)
-{
-    ADIF = 0U;    /* clear INTAD interrupt flag */
+    ADCEN = 1U;    /* supply AD clock */
     ADMK = 1U;    /* disable INTAD interrupt */
+    ADIF = 0U;    /* clear INTAD interrupt flag */
+    /* Set INTAD priority */
+    ADPR1 = 1U;
+    ADPR0 = 1U;
+    ADM0 =  _00_AD_CONVERSION_CLOCK_8 | _00_AD_TIME_MODE_NORMAL_1;
+    ADM2 = _00_AD_RESOLUTION_10BIT;
+    ADS = _0C_AD_INPUT_TEMPERSENSOR_0;
 }
 
-
+//
+void R_Config_ADC_Set_InternalReferenceVoltage(void)
+{
+    ADCEN = 1U;    /* supply AD clock */
+    ADMK = 1U;    /* disable INTAD interrupt */
+    ADIF = 0U;    /* clear INTAD interrupt flag */
+    /* Set INTAD priority */
+    ADPR1 = 1U;
+    ADPR0 = 1U;
+    ADM0 =  _00_AD_CONVERSION_CLOCK_8 | _00_AD_TIME_MODE_NORMAL_1;
+    ADM2 = _00_AD_RESOLUTION_10BIT;
+    ADS = _0D_AD_INPUT_INTERREFVOLT;
+}
 /* End user code. Do not edit comment generated here */
 

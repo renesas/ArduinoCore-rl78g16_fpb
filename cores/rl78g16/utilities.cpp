@@ -20,8 +20,8 @@ extern uint8_t g_delay_cnt_flg;
 extern uint8_t g_delay_cnt_micros_flg;
 extern volatile unsigned long g_u32delay_micros_timer;
 
-//extern uint16_t g_u16ADUL;
-//extern uint16_t g_u16ADLL;
+extern uint16_t g_u16ADUL;
+extern uint16_t g_u16ADLL;
 
 volatile unsigned long g_u32timer_periodic = 0u;    // ms周期処理用インターバルタイマ変数
 
@@ -33,7 +33,7 @@ extern "C" {
 #include "r_smc_entry.h"
 }
 
-#if defined(G22_FPB) || defined(G23_FPB)
+#if defined(G22_FPB) || defined(G23_FPB) || defined(G16_FPB)
 #define USE_PERIODIC (1) // Set 1 when issue was solved. //KAD change from 0 to 1
 #else
 #define USE_PERIODIC (0) // Set 1 when issue was solved.
@@ -210,6 +210,8 @@ uint16_t getVersion()
 }
 #if defined(G22_FPB) || defined(G23_FPB)
 #define USE_POWER_MANAGEMENT (1) // Set 1 when issue was solved. //KAD change from 0 to 1
+#elif defined(G16_FPB)
+#define USE_POWER_MANAGEMENT (2) // G16 supports normal, halt and stop mode, but does not support snooze mode
 #else
 #define USE_POWER_MANAGEMENT (0) // Set 1 when issue was solved.
 #endif // defined(G22_FPB) || defined(G23_FPB)
@@ -391,6 +393,81 @@ void setOperationClockMode(uint8_t u8ClockMode)
 /** @} group15 パワーマネージメント/クロック制御関数 */
 #endif // USE_POWER_MANAGEMENT == 1
 
+#if USE_POWER_MANAGEMENT == 2 // G16
+/** @} group14 その他 */
+
+/** ************************************************************************
+ * @defgroup group15 パワーマネージメント/クロック制御関数
+ *
+ * @{
+ ***************************************************************************/
+/**
+ * パワーマネージメントモードを取得します。
+ *
+ * 現在のパワーマネージメントモードを取得します。
+ * - 通常モード：PM_NORMAL_MODE
+ * - 省電力(HALT)モード：PM_HALT_MODE
+ * - 省電力(STOP)モード：PM_STOP_MODE
+ *
+ * @return パワーマネージメントモードを返却します。
+ *
+ * @attention なし
+ ***************************************************************************/
+uint8_t getPowerManagementMode()
+{
+    return g_u8PowerManagementMode;
+}
+
+/**
+ * パワーマネージメントモードを設定します。
+ *
+ * パワーマネージメントモードを設定します。
+ * - 通常モード：PM_NORMAL_MODE
+ * - 省電力(HALT)モード  ：PM_HALT_MODE
+ * - 省電力(STOP)モード  ：PM_STOP_MODE
+ *
+ * パワーマネージメントモードに省電力(HALT/STOP/SNOOZE)モードを指定して delay()
+ * 関数を呼び出すと、一時停止期間中はHALT/STOP命令によりスタンバイ状態になります。
+ * また、パワーマネージメントモードに省電力(SNOOZE)モード指定して、 analogRead()
+ * 関数を呼び出すと、SNOOZE状態になります。
+ *
+ * @param[in] u8PowerManagementMode パワーマネージメントモードを指定します。
+ * @param[in] u16ADLL               A/D変換結果範囲の下限値を指定します。省略した場合デフォルト値（0）が設定されます。
+ * @param[in] u16ADUL               A/D変換結果範囲の上限値を指定します。省略した場合デフォルト値（1023）が設定されます。
+ *
+ * @return なし
+ *
+ * @attention
+ * - 動作クロックの状態によっては、パワーマネージメントモードが変更されない
+ *   場合があります。
+ * - A/D変換結果下限値/上限値には0から1023の範囲を指定してください。
+ *   なお、下限値/上限値の下位2bitは無視されます。
+ ***************************************************************************/
+void setPowerManagementMode(uint8_t u8PowerManagementMode, uint16_t u16ADLL, uint16_t u16ADUL)
+{
+
+    switch (u8PowerManagementMode) {
+    case PM_NORMAL_MODE:
+    case PM_HALT_MODE:
+        g_u16ADLL = 0;
+        g_u16ADUL = 1023;
+        g_u8PowerManagementMode = u8PowerManagementMode;
+        break;
+
+    case PM_STOP_MODE:
+        if (CLS == 0) {
+            g_u16ADLL = 0;
+            g_u16ADUL = 1023;
+            g_u8PowerManagementMode = u8PowerManagementMode;
+        }
+        break;
+    default:
+        break;
+    }
+}
+
+#endif // USE_POWER_MANAGEMENT == 2
+
 
 // *************************************************************************
 // * @defgroup group16 割込みハンドラ/周期起動関数
@@ -520,7 +597,7 @@ void execCyclicHandler(void)
 }
 #endif// USE_PERIODIC == 1
 
-#if defined(G22_FPB) || defined(G23_FPB)
+#if defined(G16_FPB)
 /**
  * MCUに内蔵されている温度センサから温度（摂氏/華氏）を取得します。
  *
@@ -534,76 +611,104 @@ void execCyclicHandler(void)
 int getTemperature(uint8_t u8Mode)
 {
     extern volatile uint8_t  g_adc_int_flg;
-    uint8_t u8count;
     uint16_t u16temp;
-    uint16_t u16temp1; //温度センサ出力の値を入れる変数
-    uint16_t u16temp2; //内部基準電圧出力の値を入れる変数
+    volatile uint16_t u16temp1; //温度センサ出力の値を入れる変数
+    volatile uint16_t u16temp2; //内部基準電圧出力の値を入れる変数
     int32_t s32Temp;
     int s16Result = 0;
 
     //温度センサ出力電圧で値を取得するためのレジスタの設定をします。
     R_Config_ADC_Set_TemperatureSensor();
-
+    //  clear設定
+    ADTES = 2U;
     R_Config_ADC_Set_OperationOn();
 
-    for (u8count = 0; u8count < 2; u8count ++)
+    g_adc_int_flg = 0;
+    R_Config_ADC_Start();
+    while(1)
     {
-        g_adc_int_flg = 0;
-        R_Config_ADC_Start();
-        while(1)
+        if(g_adc_int_flg == 1)
         {
-            if(g_adc_int_flg == 1)
-            {
-                delay(5);
-                R_Config_ADC_Get_Result_10bit(&u16temp);
-                u16temp1 = u16temp;//温度センサ出力の値を入れる
-                g_adc_int_flg = 0;
-                break;
-            }
+            delay(5);
+            R_Config_ADC_Get_Result_10bit(&u16temp);
+            g_adc_int_flg = 0;
+            break;
         }
-     }
+    }
+    ADTES = 0;
 
-    u8count = 0;
-    //内部基準電圧出力で値を取得します。
+	g_adc_int_flg = 0;
+	R_Config_ADC_Start();
+	while(1)
+	{
+		if(g_adc_int_flg == 1)
+		{
+		  R_Config_ADC_Stop();
+			delay(5);
+			 R_Config_ADC_Get_Result_10bit(&u16temp);
+			 u16temp1 = u16temp;//温度センサ出力の値を入れる
+			 g_adc_int_flg = 0;
+			 break;
+		}
+	}
+
+    //内部基準電圧を取得するためのレジスタの設定をします。
     R_Config_ADC_Set_InternalReferenceVoltage();
+    //  clear設定
+    ADTES = 2U;
     R_Config_ADC_Set_OperationOn();
 
-    for (u8count = 0; u8count < 2; u8count ++)
+    g_adc_int_flg = 0;
+    R_Config_ADC_Start();
+    while(1)
     {
-        g_adc_int_flg = 0;
-        R_Config_ADC_Start();
-        while(1)
+        if(g_adc_int_flg == 1)
         {
-            if(g_adc_int_flg == 1)
-            {
-                delay(5);
-                 R_Config_ADC_Get_Result_10bit(&u16temp);
-                 u16temp2 = u16temp;//内部基準電圧出力の値を入れる
-                   g_adc_int_flg = 0;
-                   break;
-            }
+            delay(5);
+            R_Config_ADC_Get_Result_10bit(&u16temp);
+            g_adc_int_flg = 0;
+            break;
         }
     }
 
+    ADTES = 0;
+
+
+	g_adc_int_flg = 0;
+	R_Config_ADC_Start();
+	while(1)
+	{
+		if(g_adc_int_flg == 1)
+		{
+		  R_Config_ADC_Stop();
+			delay(5);
+			 R_Config_ADC_Get_Result_10bit(&u16temp);
+			 u16temp2 = u16temp;//内部基準電圧出力の値を入れる
+			 g_adc_int_flg = 0;
+			 break;
+		}
+	}
+
     //取得した値を使用し、温度を導きます。
-    volatile long n14800L = 14800L;
-    s32Temp = n14800L *u16temp1 / u16temp2 - 10500L;
+    volatile long reference_voltage = 8150L - TEMPERATURE_OFFSET;
+    s32Temp = reference_voltage * (uint32_t)u16temp1 / u16temp2 - 10500L;
+//    s32Temp = 50000 * (uint32_t)u16temp1 / 1024L - 10500L;
     if (u8Mode == TEMP_MODE_FAHRENHEIT)
     {
         //華氏
-        s16Result = s32Temp / -33 * 18 / 10;
+        s16Result = s32Temp / -36 * 18 / 10;
         s16Result += 77;
     }
     else
     {
         //摂氏
-        s16Result = (s32Temp *10) / -33;
-        s16Result += 250;
+        s16Result = s32Temp  / -36;
+        s16Result += 25;
     }
     return s16Result;
 
 }
-#endif // defined(G22_FPB) || defined(G23_FPB)
+#endif // defined(G16_FPB)
 
 
 void enterPowerManagementMode(unsigned long u32ms)

@@ -16,7 +16,6 @@ extern "C" {
     #include "pins_variant.h"
 }
 
-
 extern "C" {
 #if ( UART_CHANNEL == 0 )
     #include "Config_UART0.h"
@@ -24,309 +23,15 @@ extern "C" {
 #if ( UART1_CHANNEL == 1 )
     #include "Config_UART1.h"
 #endif /* ( UART1_CHANNEL == 1 ) */
+
 #if ( UART2_CHANNEL == 2 )
     #include "Config_UART2.h"
 #endif /* ( UART2_CHANNEL == 2 ) */
 
-
 };
-#if 0
-#if ( UART_CHANNEL == 0 ) /* ( UART_CHANNEL == 2 ) */
-#define URT_RXDx     RXD0
-#define URT_TXDx     TXD0
-#define URT_PERx     PER0.per0
-#define URT_SAUxEN   SAU0EN             /* :PER0.2  */
-#define URT_SPSx     SPS0
-#define URT_STx      ST0
-#define URT_MKxx     MK0H.mk0h
-#define URT_IFxx     IF0H.if0h
-#define URT_PR1xx    PR10H.pr10h
-#define URT_PR0xx    PR00H.pr00h
-#define URT_STMKx    STMK0              /* :MK0H.5  */
-#define URT_STIFx    STIF0              /* :IF0H.5  */
-#define URT_SRMKx    SRMK0              /* :MK0H.6  */
-#define URT_SRIFx    SRIF0              /* :IF0H.6  */
-#define URT_SREMKx   SREMK0             /* :MK0H.7  */
-#define URT_SREIFx   SREIF0             /* :IF0H.7  */
-#define URT_STPR1x   STPR10             /* :PR10H.5 */
-#define URT_STPR0x   STPR00             /* :PR00H.5 */
-#define URT_SRPR1x   SRPR10             /* :PR10H.6 */
-#define URT_SRPR0x   SRPR00             /* :PR00H.6 */
-#define URT_SREPR1x  SREPR10            /* :PR10H.7 */
-#define URT_SREPR0x  SREPR00            /* :PR00H.7 */
-#define URT_SMRx0    SMR00
-#define URT_SCRx0    SCR00
-#define URT_SDRx0    SDR00
-#define URT_NFENx    NFEN0
-#define URT_SNFENxx  SNFEN00            /* :NFEN0.0 */
-#define URT_SIRx1    SIR01
-#define URT_SMRx1    SMR01
-#define URT_SCRx1    SCR01
-#define URT_SDRx1    SDR01
-#define URT_SOx      SO0.so0
-#define URT_SOxx     SO00               /* :SO0.0   */
-#define URT_SOLx     SOL0
-#define URT_SOLxx    SOL00              /* :SOL0.0  */
-#define URT_SOEx     SOE0
-#define URT_SOExx    SOE00              /* :SOE0.0  */
-#define URT_SSx      SS0
-#define URT_SSxx     SS00               /* :SS0.0   */
-#define URT_SSRx     SSR00
-#define URT_Px       P1
-#define URT_PMx      PM1
-#define URT_TXD_Px   0x04
-#define URT_RXD_Px   0x02
-#endif /* ( UART_CHANNEL == 2 ) */
-
-#if ( UART1_CHANNEL == 1 )
-#define URT1_RXDx     RXD1
-#define URT1_TXDx     TXD1
-#define URT1_PERx     PER0.per0
-#define URT1_SAUxEN   SAU0EN            /* :PER0.2  */
-#define URT1_SPSx     SPS0
-#define URT1_STx      ST0
-#define URT1_MKxx     MK1L.mk1l
-#define URT1_IFxx     IF1L.if1l
-#define URT1_PR1xx    PR11L.pr11l
-#define URT1_PR0xx    PR01L.pr01l
-#define URT1_STMKx    STMK1             /* :MK1L.0  */
-#define URT1_STIFx    STIF1             /* :IF1L.0  */
-#define URT1_SRMKx    SRMK1             /* :MK1L.1  */
-#define URT1_SRIFx    SRIF1             /* :IF1L.1  */
-#define URT1_SREMKx   SREMK1            /* :MK1L.2  */
-#define URT1_SREIFx   SREIF1            /* :IF1L.2  */
-#define URT1_STPR1x   STPR11            /* :PR11L.0 */
-#define URT1_STPR0x   STPR01            /* :PR01L.0 */
-#define URT1_SRPR1x   SRPR11            /* :PR11L.1 */
-#define URT1_SRPR0x   SRPR01            /* :PR01L.1 */
-#define URT1_SREPR1x  SREPR11           /* :PR11L.2 */
-#define URT1_SREPR0x  SREPR01           /* :PR01L.2 */
-#define URT1_SMRx0    SMR02
-#define URT1_SCRx0    SCR02
-#define URT1_SDRx0    SDR02
-#define URT1_NFENx    NFEN0
-#define URT1_SNFENxx  SNFEN10           /* :NFEN0.2 */
-#define URT1_SIRx1    SIR03
-#define URT1_SMRx1    SMR03
-#define URT1_SCRx1    SCR03
-#define URT1_SDRx1    SDR03
-#define URT1_SOx      SO0.so0
-#define URT1_SOxx     SO02              /* :SO0.2   */
-#define URT1_SOLx     SOL0.sol0
-#define URT1_SOLxx    SOL02             /* :SOL0.2  */
-#define URT1_SOEx     SOE0
-#define URT1_SOExx    SOE02             /* :SOE0.2  */
-#define URT1_SSx      SS0
-#define URT1_SSxx     SS02              /* :SS0.2   */
-#define URT1_SSRx     SSR02
-#define URT1_Px       P0
-#define URT1_PMx      PM0
-#ifdef GRCOTTON
-#define URT1_TXD_Px   0x04
-#define URT1_RXD_Px   0x08
-#define URT1_PMCx     PMC0.pmc0
-#else /* GRCOTTON */
-#define URT1_TXD_Px   0x01
-#define URT1_RXD_Px   0x02
-#endif /* GRCOTTON */
-#endif /* ( UART1_CHANNEL == 1 ) */
-#if ( UART2_CHANNEL == 2 )
-#define URT2_RXDx     RXD2
-#define URT2_TXDx     TXD2
-#define URT2_PERx     PER0.per0
-#define URT2_SAUxEN   SAU1EN            /* :PER0.3  */
-#define URT2_SPSx     SPS1
-#define URT2_STx      ST1
-#define URT2_MKxx     MK0H.mk0h
-#define URT2_IFxx     IF0H.if0h
-#define URT2_PR1xx    PR10H.pr10h
-#define URT2_PR0xx    PR00H.pr00h
-#define URT2_STMKx    STMK2             /* :MK0H.0  */
-#define URT2_STIFx    STIF2             /* :IF0H.0  */
-#define URT2_SRMKx    SRMK2             /* :MK0H.1  */
-#define URT2_SRIFx    SRIF2             /* :IF0H.1  */
-#define URT2_SREMKx   SREMK2            /* :MK0H.2  */
-#define URT2_SREIFx   SREIF2            /* :IF0H.2  */
-#define URT2_STPR1x   STPR12            /* :PR10H.0 */
-#define URT2_STPR0x   STPR02            /* :PR00H.0 */
-#define URT2_SRPR1x   SRPR12            /* :PR10H.1 */
-#define URT2_SRPR0x   SRPR02            /* :PR00H.1 */
-#define URT2_SREPR1x  SREPR12           /* :PR10H.2 */
-#define URT2_SREPR0x  SREPR02           /* :PR00H.2 */
-#define URT2_SMRx0    SMR10
-#define URT2_SCRx0    SCR10
-#define URT2_SDRx0    SDR10
-#define URT2_NFENx    NFEN0
-#define URT2_SNFENxx  SNFEN20           /* :NFEN0.4 */
-#define URT2_SIRx1    SIR11
-#define URT2_SMRx1    SMR11
-#define URT2_SCRx1    SCR11
-#define URT2_SDRx1    SDR11
-#define URT2_SOx      SO1.so1
-#define URT2_SOxx     SO10              /* :SO1.0   */
-#define URT2_SOLx     SOL1.sol1
-#define URT2_SOLxx    SOL10             /* :SOL1.0  */
-#define URT2_SOEx     SOE1
-#define URT2_SOExx    SOE10             /* :SOE1.0  */
-#define URT2_SSx      SS1
-#define URT2_SSxx     SS10              /* :SS1.0   */
-#define URT2_SSRx     SSR10
-#define URT2_Px       P1
-#define URT2_PMx      PM1
-#define URT2_TXD_Px   0x08
-#define URT2_RXD_Px   0x10
-#endif /* ( UART2_CHANNEL == 2 ) */
-
-#if ( UART_CHANNEL == 0 ) /* ( UART_CHANNEL == 2 ) */
-#define URT_SFR_RXDx         0xfff12    /* RXD0.rxd0       */
-#define URT_SFR_TXDx         0xfff10    /* TXD0.txd0       */
-#define URT_SFR2_PERx        0xf00f0    /* PER0.per0       */
-#define URT_SFR2_BIT_SAUxEN  2          /* SAU0EN :PER0.2  */
-#define URT_SFR2_SPSx        0xf0126    /* SPS0.sps0       */
-#define URT_SFR2_STx         0xf0124    /* ST0.st0         */
-#define URT_SFR2_BIT_STxx0   0          /* ST00   :ST0.0   */
-#define URT_SFR2_BIT_STxx1   1          /* ST01   :ST0.1   */
-#define URT_SFR_MKxx         0xfffe5    /* MK0H.mk0h       */
-#define URT_SFR_IFxx         0xfffe1    /* IF0H.if0h       */
-#define URT_SFR_PR1xx        0xfffed    /* PR10H.pr10h     */
-#define URT_SFR_PR0xx        0xfffe9    /* PR00H.pr00h     */
-#define URT_SFR_BIT_STMKx    5          /* STMK0  :MK0H.5  */
-#define URT_SFR_BIT_STIFx    5          /* STIF0  :IF0H.5  */
-#define URT_SFR_BIT_SRMKx    6          /* SRMK0  :MK0H.6  */
-#define URT_SFR_BIT_SRIFx    6          /* SRIF0  :IF0H.6  */
-#define URT_SFR_BIT_SREMKx   7          /* SREMK0 :MK0H.7  */
-#define URT_SFR_BIT_SREIFx   7          /* SREIF0 :IF0H.7  */
-#define URT_SFR_BIT_STPR1x   5          /* STPR10 :PR10H.5 */
-#define URT_SFR_BIT_STPR0x   5          /* STPR00 :PR00H.5 */
-#define URT_SFR_BIT_SRPR1x   6          /* SRPR10 :PR10H.6 */
-#define URT_SFR_BIT_SRPR0x   6          /* SRPR00 :PR00H.6 */
-#define URT_SFR_BIT_SREPR1x  7          /* SREPR10:PR10H.7 */
-#define URT_SFR_BIT_SREPR0x  7          /* SREPR00:PR00H.7 */
-#define URT_SFR2_SMRx0       0xf0110    /* SMR00.smr00     */
-#define URT_SFR2_SCRx0       0xf0118    /* SCR00.scr00     */
-#define URT_SFR_SDRx0        0xfff10    /* SDR00.sdr00     */
-#define URT_SFR2_NFENx       0xf0070    /* NFEN0.nfen0     */
-#define URT_SFR2_BIT_SNFENxx 0          /* SNFEN00:NFEN0.0 */
-#define URT_SFR2_SIRx1       0xf010a    /* SIR01.sir01     */
-#define URT_SFR2_SMRx1       0xf0112    /* SMR01.smr01     */
-#define URT_SFR2_SCRx1       0xf011a    /* SCR01.scr01     */
-#define URT_SFR2_SDRx1       0xfff12    /* SDR01.sdr01     */
-#define URT_SFR2_SOx         0xf0128    /* SO0.so0         */
-#define URT_SFR2_BIT_SOxx    0          /* SO00   :SO0.0   */
-#define URT_SFR2_SOLx        0xf0134    /* SOL0.sol0       */
-#define URT_SFR2_BIT_SOLxx   0          /* SOL00  :SOL0.0  */
-#define URT_SFR2_SOEx        0xf012a    /* SOE0.soe0       */
-#define URT_SFR2_BIT_SOExx   0          /* SOE00  :SOE0.0  */
-#define URT_SFR2_SSx         0xf0122    /* SS0.ss0         */
-#define URT_SFR2_BIT_SSxx0   0          /* SS00   :SS0.0   */
-#define URT_SFR2_BIT_SSxx1   1          /* SS01   :SS0.1   */
-#endif /* ( UART_CHANNEL == 2 ) */
-
-#if ( UART1_CHANNEL == 1 )
-#define URT1_SFR_RXDx         0xfff46   /* RXD1.rxd1       */
-#define URT1_SFR_TXDx         0xfff44   /* TXD1.txd1       */
-#define URT1_SFR2_PERx        0xf00f0   /* PER0.per0       */
-#define URT1_SFR2_BIT_SAUxEN  2         /* SAU0EN :PER0.2  */
-#define URT1_SFR2_SPSx        0xf0126   /* SPS0.sps0       */
-#define URT1_SFR2_STx         0xf0124   /* ST0.st0         */
-#define URT1_SFR2_BIT_STxx0   2         /* ST02   :ST0.2   */
-#define URT1_SFR2_BIT_STxx1   3         /* ST03   :ST0.3   */
-#define URT1_SFR_MKxx         0xfffe6   /* MK1L.mk1l       */
-#define URT1_SFR_IFxx         0xfffe2   /* IF1L.if1l       */
-#define URT1_SFR_PR1xx        0xfffee   /* PR11L.pr11l     */
-#define URT1_SFR_PR0xx        0xfffea   /* PR01L.pr01l     */
-#define URT1_SFR_BIT_STMKx    0         /* STMK1  :MK1L.0  */
-#define URT1_SFR_BIT_STIFx    0         /* STIF1  :IF1L.0  */
-#define URT1_SFR_BIT_SRMKx    1         /* SRMK1  :MK1L.1  */
-#define URT1_SFR_BIT_SRIFx    1         /* SRIF1  :IF1L.1  */
-#define URT1_SFR_BIT_SREMKx   2         /* SREMK1 :MK1L.2  */
-#define URT1_SFR_BIT_SREIFx   2         /* SREIF1 :IF1L.2  */
-#define URT1_SFR_BIT_STPR1x   0         /* STPR11 :PR11L.0 */
-#define URT1_SFR_BIT_STPR0x   0         /* STPR01 :PR01L.0 */
-#define URT1_SFR_BIT_SRPR1x   1         /* SRPR11 :PR11L.1 */
-#define URT1_SFR_BIT_SRPR0x   1         /* SRPR01 :PR01L.1 */
-#define URT1_SFR_BIT_SREPR1x  2         /* SREPR11:PR11L.2 */
-#define URT1_SFR_BIT_SREPR0x  2         /* SREPR01:PR01L.2 */
-#define URT1_SFR2_SMRx0       0xf0114   /* SMR02.smr02     */
-#define URT1_SFR2_SCRx0       0xf011c   /* SCR02.scr02     */
-#define URT1_SFR_SDRx0        0xfff44   /* SDR02.sdr02     */
-#define URT1_SFR2_NFENx       0xf0070   /* NFEN0.nfen0     */
-#define URT1_SFR2_BIT_SNFENxx 2         /* SNFEN10:NFEN0.2 */
-#define URT1_SFR2_SIRx1       0xf010e   /* SIR03.sir03     */
-#define URT1_SFR2_SMRx1       0xf0116   /* SMR03.smr03     */
-#define URT1_SFR2_SCRx1       0xf011e   /* SCR03.scr03     */
-#define URT1_SFR2_SDRx1       0xfff46   /* SDR03.sdr03     */
-#define URT1_SFR2_SOx         0xf0128   /* SO0.so0         */
-#define URT1_SFR2_BIT_SOxx    2         /* SO02   :SO0.2   */
-#define URT1_SFR2_SOLx        0xf0134   /* SOL0.sol0       */
-#define URT1_SFR2_BIT_SOLxx   2         /* SOL02  :SOL0.2  */
-#define URT1_SFR2_SOEx        0xf012a   /* SOE0.soe0       */
-#define URT1_SFR2_BIT_SOExx   2         /* SOE02  :SOE0.2  */
-#define URT1_SFR2_SSx         0xf0122   /* SS0.ss0         */
-#define URT1_SFR2_BIT_SSxx0   2         /* SS02   :SS0.2   */
-#define URT1_SFR2_BIT_SSxx1   3         /* SS03   :SS0.3   */
-#endif /* ( UART1_CHANNEL == 1 ) */
-#if ( UART2_CHANNEL == 2 )
-#define URT2_SFR_RXDx         0xfff4a   /* RXD2.rxd2       */
-#define URT2_SFR_TXDx         0xfff48   /* TXD2.txd2       */
-#define URT2_SFR2_PERx        0xf00f0   /* PER0.per0       */
-#define URT2_SFR2_BIT_SAUxEN  3         /* SAU1EN :PER0.3  */
-#define URT2_SFR2_SPSx        0xf0166   /* SPS1.sps1       */
-#define URT2_SFR2_STx         0xf0164   /* ST1.st1         */
-#define URT2_SFR2_BIT_STxx0   0         /* ST10   :ST1.0   */
-#define URT2_SFR2_BIT_STxx1   1         /* ST11   :ST1.1   */
-#define URT2_SFR_MKxx         0xfffe5   /* MK0H.mk0h       */
-#define URT2_SFR_IFxx         0xfffe1   /* IF0H.if0h       */
-#define URT2_SFR_PR1xx        0xfffed   /* PR10H.pr10h     */
-#define URT2_SFR_PR0xx        0xfffe9   /* PR00H.pr00h     */
-#define URT2_SFR_BIT_STMKx    0         /* STMK2  :MK0H.0  */
-#define URT2_SFR_BIT_STIFx    0         /* STIF2  :IF0H.0  */
-#define URT2_SFR_BIT_SRMKx    1         /* SRMK2  :MK0H.1  */
-#define URT2_SFR_BIT_SRIFx    1         /* SRIF2  :IF0H.1  */
-#define URT2_SFR_BIT_SREMKx   2         /* SREMK2 :MK0H.2  */
-#define URT2_SFR_BIT_SREIFx   2         /* SREIF2 :IF0H.2  */
-#define URT2_SFR_BIT_STPR1x   0         /* STPR12 :PR10H.0 */
-#define URT2_SFR_BIT_STPR0x   0         /* STPR02 :PR00H.0 */
-#define URT2_SFR_BIT_SRPR1x   1         /* SRPR12 :PR10H.1 */
-#define URT2_SFR_BIT_SRPR0x   1         /* SRPR02 :PR00H.1 */
-#define URT2_SFR_BIT_SREPR1x  2         /* SREPR12:PR10H.2 */
-#define URT2_SFR_BIT_SREPR0x  2         /* SREPR02:PR00H.2 */
-#define URT2_SFR2_SMRx0       0xf0150   /* SMR10.smr10     */
-#define URT2_SFR2_SCRx0       0xf0158   /* SCR10.scr10     */
-#define URT2_SFR_SDRx0        0xfff48   /* SDR10.sdr10     */
-#define URT2_SFR2_NFENx       0xf0070   /* NFEN0.nfen0     */
-#define URT2_SFR2_BIT_SNFENxx 4         /* SNFEN20:NFEN0.4 */
-#define URT2_SFR2_SIRx1       0xf014a   /* SIR11.sir11     */
-#define URT2_SFR2_SMRx1       0xf0152   /* SMR11.smr11     */
-#define URT2_SFR2_SCRx1       0xf015a   /* SCR11.scr11     */
-#define URT2_SFR_SDRx1        0xfff4a   /* SDR11.sdr11     */
-#define URT2_SFR2_SOx         0xf0168   /* SO1.so1         */
-#define URT2_SFR2_BIT_SOxx    0         /* SO10   :SO1.0   */
-#define URT2_SFR2_SOLx        0xf0174   /* SOL1.sol1       */
-#define URT2_SFR2_BIT_SOLxx   0         /* SOL10  :SOL1.0  */
-#define URT2_SFR2_SOEx        0xf016a   /* SOE1.soe1       */
-#define URT2_SFR2_BIT_SOExx   0         /* SOE10  :SOE1.0  */
-#define URT2_SFR2_SSx         0xf0162   /* SS1.ss1         */
-#define URT2_SFR2_BIT_SSxx0   0         /* SS10   :SS1.0   */
-#define URT2_SFR2_BIT_SSxx1   1         /* SS11   :SS1.1   */
-#endif /* ( UART2_CHANNEL == 2 ) */
-
-#endif /* (#if 0) */
-
-/*
- * this next line disables the entire HardwareUart.cpp,
- * this is so I can support Attiny series and any other chip without a uart
- */
 
 #include "HardwareUart.h"
 
-/*
- * Define constants and variables for buffering incoming serial data.  We're
- * using a ring buffer (I think), in which head is the index of the location
- * to which to write the next incoming character and tail is the index of the
- * location from which to read.
- */
-// #define SERIAL_BUFFER_SIZE 256
 
 void serialEventRun(void)
 {
@@ -454,14 +159,14 @@ void HardwareUart::begin(unsigned long baud, uint16_t config, int rx_buf, int tx
     switch (_urt_channel)
     {
         case 0:
-#if (UART_CHANNEL==0)
+#if defined(UART_CHANNEL) && (UART_CHANNEL==0)
             R_Config_UART0_Create();
             Set_Baudrate(baud);
             Set_SerialPort(SERIAL_TXD0,SERIAL_RXD0);
             Set_Config(config);
             R_Config_UART0_Start();
             R_Config_UART0_Receive((uint8_t * const)&receive_buffer,1);
-#endif /* UART_CHANNEL==0 */
+#endif /* defined(UART_CHANNEL) && UART_CHANNEL==0 */
             break;
         case 1:
 #if (UART1_CHANNEL==1)
@@ -500,9 +205,9 @@ void HardwareUart::end()
     switch (_urt_channel)
     {
     case 0:
-#if (UART_CHANNEL == 0 )
+#if defined(UART_CHANNEL) && (UART_CHANNEL == 0 )
         R_Config_UART0_Stop();
-#endif /* (UART_CHANNEL == 0 ) */
+#endif /* defined(UART_CHANNEL) && (UART_CHANNEL == 0 ) */
         break;
     case 1:
 #if (UART1_CHANNEL == 1 )
@@ -610,36 +315,39 @@ int HardwareUart::read(void)
 void HardwareUart::flush()
 {
   /* buffer is none */
+
+
     if (0 == _tx_buf_size || 0 == _tx_buffer)
     {
         return;
     }
     if (_urt_channel == 0)
     {
-        while (SSR00 & (_0040_SAU_UNDER_EXECUTE | _0020_SAU_VALID_STORED))
+#if defined(UART_CHANNEL) && ( UART_CHANNEL == 0 )
+    	while (SSR00 & (_0040_SAU_UNDER_EXECUTE | _0020_SAU_VALID_STORED))
         {  /* check TSF00 and BFF00 */
             ;
         }
+#endif /* defined(UART_CHANNEL) && ( UART_CHANNEL == 0 ) */
     }
-#if ( UART1_CHANNEL == 1 )
     else if (_urt_channel == 1)
     {
-        while (SSR02 & (_0040_SAU_UNDER_EXECUTE | _0020_SAU_VALID_STORED))
+#if ( UART1_CHANNEL == 1 )
+    	while (SSR02 & (_0040_SAU_UNDER_EXECUTE | _0020_SAU_VALID_STORED))
         {  /* check TSF02 and BFF02 */
             ;
         }
-    }
 #endif /* ( UART1_CHANNEL == 1 ) */
-#if ( UART2_CHANNEL == 2 )
+    }
     else if (_urt_channel == 2)
     {
-        while (SSR10 & (_0040_SAU_UNDER_EXECUTE | _0020_SAU_VALID_STORED))
+#if ( UART2_CHANNEL == 2 )
+    	while (SSR10 & (_0040_SAU_UNDER_EXECUTE | _0020_SAU_VALID_STORED))
         {  /* check TSF10 and BFF10 */
             ;
         }
-    }
 #endif /* ( UART2_CHANNEL == 2 ) */
-
+    }
     while(_tx_buf_size-1!=availableForWrite())
     {
         NOP();
@@ -678,11 +386,13 @@ size_t HardwareUart::UART_Send(uint8_t c)
         switch (_urt_channel)
         {
             case 0:
+#if defined(UART_CHANNEL) && ( UART_CHANNEL == 0 )
                 if((SSR00 & _0020_SAU_VALID_STORED) != 0)/*BFF00*/
                 {
                     return 0;
                 }
                 err = R_Config_UART0_Send((uint8_t * const)&c,1);
+#endif /* defined(UART_CHANNEL) && ( UART_CHANNEL == 0 ) */
                 break;
             case 1:
 #if ( UART1_CHANNEL == 1 )
@@ -730,13 +440,13 @@ size_t HardwareUart::UART_Send(uint8_t c)
                 switch (_urt_channel)
                 {
                     case 0:
-        #if ( UART_CHANNEL == 0 )
+        #if defined(UART_CHANNEL) && ( UART_CHANNEL == 0 )
                         while (SSR00 & (_0040_SAU_UNDER_EXECUTE | _0020_SAU_VALID_STORED))
                         {  /* check TSF00 and BFF00 */
                             ;
                         }
                         STIF0 = 0;
-        #endif /* ( UART_CHANNEL == 0 ) */
+        #endif /* defined(UART_CHANNEL) && ( UART_CHANNEL == 0 ) */
                         break;
                     case 1:
         #if ( UART1_CHANNEL == 1 )
@@ -849,9 +559,9 @@ void HardwareUart::load_char(void){
         switch (_urt_channel)
         {
         case 0:
-#if (UART_CHANNEL == 0)
+#if defined(UART_CHANNEL) && (UART_CHANNEL == 0)
             R_Config_UART0_Send((uint8_t * const)&send_buffer,1);
-#endif /* (UART_CHANNEL == 0) */
+#endif /* defined(UART_CHANNEL) && (UART_CHANNEL == 0) */
             break;
         case 1:
 #if (UART1_CHANNEL == 1)
@@ -887,9 +597,9 @@ void HardwareUart::store_char(void){
     switch (_urt_channel)
     {
     case 0:
-    #if (UART_CHANNEL == 0)
+    #if defined(UART_CHANNEL) && (UART_CHANNEL == 0)
         R_Config_UART0_Receive((uint8_t * const)&receive_buffer,1);
-    #endif /* (UART_CHANNEL == 0) */
+    #endif /* defined(UART_CHANNEL) && (UART_CHANNEL == 0) */
         break;
     case 1:
     #if (UART1_CHANNEL == 1)
@@ -956,12 +666,12 @@ void HardwareUart::Set_Baudrate(unsigned long baudrate)
     switch (_urt_channel)
     {
         case 0:
-#if ( UART_CHANNEL == 0 )
+#if defined(UART_CHANNEL) && ( UART_CHANNEL == 0 )
             SPS0 &= (_00F0_SAU_CK00_CLEAR) ;
             SPS0 |=  prs ;
             SDR00 = ((uint16_t)sdr) << 9 ;
             SDR01 = ((uint16_t)sdr) << 9 ;
-#endif /* ( UART_CHANNEL == 0 ) */
+#endif /* defined(UART_CHANNEL) && ( UART_CHANNEL == 0 ) */
             break;
         case 1:
 #if ( UART1_CHANNEL == 1 )
@@ -1057,7 +767,7 @@ void HardwareUart::Set_Config(uint16_t config )
         case 0:
         {
         /* SCR00 16bit*/
-#if ( UART_CHANNEL == 0 )
+#if defined(UART_CHANNEL) && ( UART_CHANNEL == 0 )
         unsigned short SCR00data=_8000_SAU_TRANSMISSION |_0000_SAU_INTSRE_MASK |_0004_SAU_SCRMN_INITIALVALUE |_0080_SAU_LSB | converted_config;
         /* When sending, _0000_SAU_INTSRE_MASK :EOCmn = 0*/
         unsigned short SCR01data=_4000_SAU_RECEPTION |_0400_SAU_INTSRE_ENABLE |_0004_SAU_SCRMN_INITIALVALUE |_0080_SAU_LSB | converted_config;
@@ -1069,7 +779,7 @@ void HardwareUart::Set_Config(uint16_t config )
 
         SCR00 = SCR00data;
         SCR01 = SCR01data;
-#endif /* ( UART_CHANNEL == 0 ) */
+#endif /* defined(UART_CHANNEL) && ( UART_CHANNEL == 0 ) */
         }
         break;
 
@@ -1249,9 +959,9 @@ void Set_Char_Serial_to_buf(uint8_t chn)
     switch (chn)
     {
         case 0:
-#if (UART_CHANNEL == 0)
+#if defined(UART_CHANNEL) && (UART_CHANNEL == 0)
             Serial.store_char();
-#endif /* (UART_CHANNEL == 0) */
+#endif /* defined(UART_CHANNEL) && (UART_CHANNEL == 0) */
             break;
         case 1:
 #if (UART1_CHANNEL == 1)
@@ -1281,9 +991,9 @@ void Set_Char_Serial_from_buf(uint8_t chn)
     switch (chn)
     {
         case 0:
-#if (UART_CHANNEL == 0)
+#if defined(UART_CHANNEL) && (UART_CHANNEL == 0)
             Serial.load_char();
-#endif /* (UART_CHANNEL == 0) */
+#endif /* defined(UART_CHANNEL) && (UART_CHANNEL == 0) */
             break;
         case 1:
 #if (UART1_CHANNEL == 1)
@@ -1305,9 +1015,9 @@ void Set_Char_Serial_from_buf(uint8_t chn)
 
 // Preinstantiate Objects //////////////////////////////////////////////////////
 
-#if ( UART_CHANNEL == 0 )
+#if defined(UART_CHANNEL) && ( UART_CHANNEL == 0 )
     HardwareUart Serial(0);
-#endif /* ( UART_CHANNEL == 0 ) */
+#endif /* defined(UART_CHANNEL) && ( UART_CHANNEL == 0 ) */
 #if ( UART1_CHANNEL == 1 )
     HardwareUart Serial1(1);
 #endif /* ( UART1_CHANNEL == 1 ) */

@@ -41,7 +41,7 @@ Includes
 // #include "Config_TAU0_3.h"
 // #include "Config_TAU0_4.h"
 // #include "Config_TAU0_5.h"
-// #include "Config_TAU0_6.h"
+#include "Config_TAU0_6.h"
 // #include "Config_TAU0_7.h"
 // #include "r_cg_tau_common.h"
 /* Start user code for include. Do not edit comment generated here */
@@ -65,6 +65,8 @@ void R_TAU0_Create(void)
     TAU0EN = 1U;    /* start TAU0 clock */
     /* Set TAU0 settings */
 
+    R_Config_TAU0_6_Create();
+//    R_Config_TAU0_7_Create();
 }
 
 /***********************************************************************************************************************

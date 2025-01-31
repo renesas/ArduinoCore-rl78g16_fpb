@@ -19,6 +19,15 @@
 // #define UART1_CHANNEL       1       // UART1(Serial1)
 #define UART_TOTAL_NUM      1
 
+/* SPI(CSI) Definition */
+#define USE_CSI      (1) // Set to '1' when Use SPI Hardware
+
+#if defined(USE_CSI) && USE_CSI
+
+//  #define CSI_CHANNEL0 (0) // USE CSI00 for SPI
+#define CSI_CHANNEL4 (4) // USE CSI20 for SPI
+#endif /* defined(USE_CSI) && USE_CSI */
+
 /* IIC Definition */
 #define IIC_CHANNEL0 (0)
 // #define IIC_CHANNEL1 (1)
@@ -47,6 +56,15 @@ typedef struct {
 
 #define PIN_WIRE_SDA        (22) // P61
 #define PIN_WIRE_SCL        (21) // P60
+#define PIN_SPI_SS    (8)
+#define PIN_SPI_MOSI  (11)
+#define PIN_SPI_MISO  (12)
+#define PIN_SPI_SCK   (13)
+
+extern const uint8_t SS;
+extern const uint8_t MOSI;
+extern const uint8_t MISO;
+extern const uint8_t SCK;
 
 extern const uint8_t SDA;
 extern const uint8_t SCL;

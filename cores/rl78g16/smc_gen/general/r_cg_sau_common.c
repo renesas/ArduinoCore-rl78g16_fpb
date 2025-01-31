@@ -35,9 +35,11 @@ Pragma directive
 Includes
 ***********************************************************************************************************************/
 #include "r_cg_macrodriver.h"
-// #include "Config_CSI11.h"
+#include "Config_CSI20.h"
 #include "Config_UART0.h"
-#include "Config_UART1.h"
+#if ( UART1_CHANNEL == 1 )
+    #include "Config_UART1.h"
+#endif /* ( UART1_CHANNEL == 1 ) */
 #include "r_cg_sau_common.h"
 /* Start user code for include. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
@@ -58,7 +60,7 @@ Global variables and functions
 void R_SAU0_Create(void)
 {
     SAU0EN = 1U;    /* supplies input clock */
-//    R_Config_CSI11_Create();
+    R_Config_CSI20_Create();
 //    R_Config_UART0_Create();
 //    R_Config_UART1_Create();
 }
@@ -119,5 +121,31 @@ void R_SAU1_Set_PowerOff(void)
 }
 
 /* Start user code for adding. Do not edit comment generated here */
+#if defined(UART_CHANNEL) && ( UART_CHANNEL == 0 )&& defined(CSI_CHANNEL0)
+
+void r_Config_CSI00_UART0_interrupt_switching(void) {
+#if defined(UART_CHANNEL) && ( UART_CHANNEL == 0 ) 
+    /* Check bit [2:1] of register SMR03 == 01 , which is set in R_Config_UART1_Create(). */
+    if ( (SMR00 & _0002_SAU_MODE_UART) == _0002_SAU_MODE_UART) {
+        /*
+         */
+        r_Config_UART0_interrupt_send();
+        return;
+    }
+#endif
+
+#if defined(CSI_CHANNEL0)
+    /* Check bit [2:1] of register SMR03 == 00 , which is set in R_Config_CSI11_Create(). */
+    if ( (SMR00 & _0000_SAU_MODE_CSI) == _0000_SAU_MODE_CSI) {
+        /* Call the interrupt handler for CSI11 (Master)
+         * If it is possible to distinguish between CSI11 (master) and CSI111 (slave), do so here. */
+        r_Config_CSI00_interrupt();
+        return;
+    }
+#endif
+}
+
+#endif  // defined(UART_CHANNEL) && ( UART_CHANNEL == 0 ) && defined(CSI_CHANNEL3)
+
 /* End user code. Do not edit comment generated here */
 

@@ -85,8 +85,20 @@ INT_WDTI,
 
 /*
  * INT_CSI00/INT_IIC00/INT_ST0 (0x12)
- */
+ */ 
+#if defined(UART_CHANNEL) && ( UART_CHANNEL == 0 ) && defined(CSI_CHANNEL0)
+    r_Config_CSI00_UART0_interrupt_switching,
+
+#elif defined(CSI_CHANNEL0)
+    r_Config_CSI00_interrupt,
+
+#elif (defined(UART_CHANNEL) & UART_CHANNEL == 0 )
     r_Config_UART0_interrupt_send,
+
+#else
+    INT_ST0,
+#endif
+
 
 /*
  * INT_SR0 (0x14)
@@ -116,28 +128,26 @@ INT_WDTI,
 /*
  * INT_ST1 (0x1E)
  */
-//    INT_ST1,
-    r_Config_UART1_interrupt_send,
+    INT_ST1,
+//    r_Config_UART1_interrupt_send,
 
 /*
  * INT_CSI11/INT_IIC11/INT_SR1 (0x20)
  */
 //    r_Config_CSI11_interrupt,
-//    INT_DUMMY,
-    r_Config_UART1_interrupt_receive,
+    INT_DUMMY,
+//    r_Config_UART1_interrupt_receive,
     
 /*
  * INT_SRE1 (0x22)
  */
-//    INT_SRE1,
-    r_Config_UART1_interrupt_error,
+    INT_SRE1,
+//    r_Config_UART1_interrupt_error,
     
 /*
  * INT_CSI20/INT_IIC20/INT_ST2 (0x24)
  */
-    INT_ST2,
-//    INT_CSI20,
-//    INT_IIC20,
+    r_Config_CSI20_interrupt,
 
 /*
  * INT_SR2 (0x26)
@@ -178,7 +188,7 @@ INT_WDTI,
 /*
  * INT_RTC (0x34)
  */
-    INT_RTC,
+    r_Config_RTC_interrupt,
 
 /*
  * INT_RTIT (0x36)
@@ -198,16 +208,15 @@ INT_WDTI,
 /*
  * INT_TM05 (0x3C)
  */
-//    r_Config_TAU0_5_interrupt,
+    r_Config_TAU0_5_interrupt,
 //	r_Config_TAU0_5_Measure_Signal_interrupt,
-	    INT_DUMMY,
+//	    INT_DUMMY,
 
 /*
  * INT_TM06 (0x3E)
  */
-//    r_Config_TAU0_6_interrupt,
-    INT_DUMMY,
-//      r_Config_TAU0_6_Micros_interrupt,
+    r_Config_TAU0_6_interrupt,
+//    INT_DUMMY,
 
 /*
  * INT_TM07 (0x40)

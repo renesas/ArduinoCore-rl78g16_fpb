@@ -8,10 +8,6 @@
 #include "r_smc_entry.h"
 #include "platform.h"
 
-
-
-/* 1108 Ueeda add */
-
 typedef struct {
     void (*begin)();
     void (*mode)(uint8_t interruptNum, PinStatus mode);
@@ -57,7 +53,6 @@ void detachInterrupt(uint8_t interruptNum) {
 // INTERRUPT HANDLERS *********************************************************/
 // NMI and IRQ interrupt handlers. Note that all of these are declared in
 // interrupts_handlers.h but defined here for clarity.
-
 // ***************************************************************************/
 INTERRUPT void external_interrupt_0(void)
 {
